@@ -8,20 +8,32 @@ const Carrousel = () => {
 
   return (
     <>
-      <Container fluid className="containerCarusel">
-        <Carousel>
-          <Carousel.Item>
-            <img src={estadio} alt="" />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img src={enzo} alt="" />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img src={filial} alt="" />
-          </Carousel.Item>
-        </Carousel>
-      </Container>
-    </>
+    <Container fluid className="containerCarusel">
+      <Carousel>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={estadio}
+            alt="Estadio"
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={enzo}
+            alt="Enzo"
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={filial}
+            alt="Filial"
+          />
+        </Carousel.Item>
+      </Carousel>
+    </Container>
+  </>
   );
 };
 

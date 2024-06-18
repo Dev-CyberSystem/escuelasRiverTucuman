@@ -1,5 +1,15 @@
+
+.containerCarusel {
+  max-width: 100%;
+  padding: 0;
+}
+
+.carousel-item img {
+  max-height: 500px; /* Ajusta esta altura según tus necesidades */
+  object-fit: cover; /* Esto asegurará que las imágenes cubran el área del contenedor sin distorsionarse */
+}
 @media (max-width: 575.98px) {
   .containerCarusel {
-    display: none;
+    margin-top: 50px;
   }
 }

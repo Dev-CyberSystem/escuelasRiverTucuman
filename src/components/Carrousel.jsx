@@ -1,7 +1,7 @@
 import { Container, Carousel } from "react-bootstrap";
-import estadio from "../assets/img/r1.png";
-import enzo from "../assets/img/r2.png";
-import filial from "../assets/img/r3.png";
+import estadio from "../assets/img/1.png";
+import enzo from "../assets/img/2.png";
+import filial from "../assets/img/3.png";
 import "./styleCarrousel.css";
 
 const Carrousel = () => {

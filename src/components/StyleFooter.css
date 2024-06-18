@@ -1,29 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Poppins:wght@500&family=Roboto:wght@100&display=swap');
-
-
-
-
 .containerFooter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 25vh;
-  background-color: #e11f1c;  
-    color: white;
-    /* font-family: 'Merriweather', serif; */
-    font-family: "River Plate 2023 - 24";
-}
-
-.containerFooter2 {
-  background-color: #f3f3f3;
-  text-align: center;
-  padding: 2px;
-    bottom: 0;
-  width: 100%;
-  height: 30px;
+  background-color: #343a40;
+  color: white;
+  padding: 20px 0;
 }
 
 .logoFooter {
-  height: 10vmin;
-  width: 10vmin;
+  width: 100px;
+  height: auto;
+  margin-left: 10px;
+}
+
+.containerFooter h2,
+.containerFooter h4,
+.containerFooter p {
+  margin: 0;
+}
+
+.containerFooter a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin-top: 10px;
+}
+
+.containerFooter a:hover {
+  text-decoration: underline;
+}
+
+.containerFooter2 {
+  background-color: #212529;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 0.875rem;
 }

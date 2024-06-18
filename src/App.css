@@ -1,0 +1,44 @@
+.styleapp {
+  /* background-color: #b4b4b4; */
+  height: 100vh;
+}
+
+.logo {
+  height: 40vmin;
+  width: 40vmin;
+  pointer-events: none;
+}
+
+.cuerpoPagina {
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+@media (min-width: 575.98px) {
+  .styleCarusel {
+    display: none;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}

@@ -1,0 +1,75 @@
+.image-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.overlay-text-container {
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    z-index: 10;
+}
+
+.overlay-text {
+    color: white;
+    font-size: 4rem; /* Ajusta el tamaño según tus necesidades */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Opcional, para mejor legibilidad */
+}
+
+/* responsive design */
+
+@media (max-width: 768px) {
+    .overlay-text {
+        font-size: 2rem; /* Ajusta el tamaño según tus necesidades */
+    }
+}
+
+/* responsive design */
+
+@media (max-width: 576px) {
+    .overlay-text {
+        font-size: 1rem; /* Ajusta el tamaño según tus necesidades */
+    }
+}
+
+/* responsive design */
+
+@media (max-width: 375px) {
+    .overlay-text {
+        font-size: 1rem; /* Ajusta el tamaño según tus necesidades */
+    }
+}
+
+/* responsive design */
+
+@media (max-width: 320px) {
+    .overlay-text {
+        font-size: 0.8rem; /* Ajusta el tamaño según tus necesidades */
+    }
+}
+
+/* responsive design */
+
+@media (max-width: 280px) {
+    .overlay-text {
+        font-size: 0.6rem; /* Ajusta el tamaño según tus necesidades */
+    }
+}
+
+/* responsive design */
+
+@media (max-width: 240px) {
+    .overlay-text {
+        font-size: 0.5rem; /* Ajusta el tamaño según tus necesidades */
+    }
+}

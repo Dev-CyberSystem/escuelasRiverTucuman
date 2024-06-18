@@ -15,6 +15,15 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
 }
 
+.escudoObjetivos {
+  width: 4%;
+  height: 4%;
+  object-fit: cover;
+  /* border-radius: 50%; */
+  /* border: 2px solid #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
+}
+
 /* responsive. */
 
 @media (max-width: 768px) {

@@ -42,9 +42,7 @@ const Navegador = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/profes">Profes</Nav.Link>
-            <Nav.Link href="#link">Noticias</Nav.Link>
-            <Nav.Link href="#link">Galeria</Nav.Link>
-            <Nav.Link href="#link">Contacto</Nav.Link>
+            <Nav.Link href="/contacto">Contacto</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

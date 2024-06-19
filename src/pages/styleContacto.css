@@ -28,7 +28,7 @@
         width: 90%;
         }
         .logoContacto {
-            margin-left: 50px;
+           display: none    ;
         }
     }
 
@@ -36,6 +36,9 @@
         .form-box {
         width: 100%;
         }
+        .logoContacto {
+            display: none    ;
+         }
     }
 
 

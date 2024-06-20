@@ -1,0 +1,27 @@
+.containerUbicacion {
+  background-color: #494646;
+  padding: 20px;
+}
+.datosUbicacion {
+  margin-top: 10px;
+  color: aliceblue;
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* responsive */
+
+@media (max-width: 768px) {
+  .datosUbicacion {
+    width: 90%;
+  }
+}
+
+@media (max-width: 576px) {
+  .datosUbicacion {
+    width: 100%;
+  }
+}
+
+

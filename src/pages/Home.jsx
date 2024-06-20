@@ -7,6 +7,7 @@ import headerRiver from "../assets/img/header5.png";
 import CantidadAlumnos from "../components/CantidadAlumnos";
 import MisionVision from "../components/MisionVision";
 import Valores from "../components/Valores";
+import Ubicacion from "../components/Ubicacion";
 
 const Home = () => {
   return (
@@ -27,9 +28,10 @@ const Home = () => {
         </div>
      
       </div>
-      <CantidadAlumnos />
       <MisionVision />
+      <CantidadAlumnos />
       <Valores />
+      <Ubicacion />
      
     </>
   );

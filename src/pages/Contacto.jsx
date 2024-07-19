@@ -1,32 +1,73 @@
+import { useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import EscuelasRiver from "../assets/img/logoEscuela.png";
 import "./styleContacto.css";
+import emailjs from "@emailjs/browser";
+import Swal from "sweetalert2";
 
 const Contacto = () => {
+  const form = useRef();
+
   const initialValues = {
-    nombre: "",
-    apellido: "",
-    telefono: "",
-    email: "",
-    consulta: "",
+    user_name: "",
+    user_lastname: "",
+    user_phone: "",
+    user_email: "",
+    message: "",
   };
 
   const validationSchema = Yup.object({
-    nombre: Yup.string().required("Nombre es requerido"),
-    apellido: Yup.string().required("Apellido es requerido"),
-    telefono: Yup.string().required("Teléfono es requerido"),
-    email: Yup.string().email("Email inválido").required("Email es requerido"),
-    consulta: Yup.string().required("Consulta es requerida"),
+    user_name: Yup.string().required("Nombre es requerido"),
+    user_lastname: Yup.string().required("Apellido es requerido"),
+    user_phone: Yup.number().required("Teléfono es requerido"),
+    user_email: Yup.string()
+      .email("Email inválido")
+      .required("Email es requerido"),
+    message: Yup.string().required("Consulta es requerida"),
   });
 
-  const onSubmit = (values, { setSubmitting, resetForm }) => {
-    console.log("Formulario enviado", values);
-    // Aquí puedes manejar el envío del formulario, por ejemplo, enviar los datos a una API
-    setSubmitting(false);
-    resetForm();
+  const sendEmail = (values, { setSubmitting, resetForm }) => {
+    emailjs
+      .sendForm(
+        "service_uf7dx3g",
+        "template_1poikpi",
+        form.current,
+        "ctVq2-fx4RDYLyBq2"
+      )
+      .then(
+        () => {
+          Swal.fire({
+            title: "Consulta enviada",
+            text: "Gracias por contactarte con Escuelas River Tucumán. Te responderemos a la brevedad.",
+            imageUrl: EscuelasRiver,
+            imageWidth: 400,
+            imageHeight: 400,
+            imageAlt: "Logo Escuelas River",
+            timer: 4000,
+
+          });
+          setSubmitting(false);
+          resetForm();
+        },
+        (error) => {
+
+          Swal.fire({
+            title: "Error al enviar la consulta",
+            text: "Por favor, intente nuevamente.",
+            imageUrl: EscuelasRiver,
+            imageWidth: 400,
+            imageHeight: 400,
+            imageAlt: "Logo Escuelas River",
+            timer: 4000,
+          });
+          console.log("FAILED...", error);
+          setSubmitting(false);
+        }
+      );
   };
+
   return (
     <Container fluid className="contact-form-container mt-5">
       <Row className="justify-content-center align-items-center h-100">
@@ -35,15 +76,20 @@ const Contacto = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={onSubmit}
+            onSubmit={sendEmail}
           >
             {({ isSubmitting }) => (
-              <Form>
+              <Form ref={form}>
                 <div className="form-group">
-                  <label htmlFor="nombre">Nombre</label>
-                  <Field type="text" name="nombre" className="form-control" />
+                  <label htmlFor="user_name">Nombre</label>
+                  <Field
+                    type="text"
+                    name="user_name"
+                    className="form-control"
+                    maxLength="30"
+                  />
                   <ErrorMessage
-                    name="nombre"
+                    name="user_name"
                     component="div"
                     className="text-danger"
                   />
@@ -51,9 +97,14 @@ const Contacto = () => {
 
                 <div className="form-group">
                   <label htmlFor="apellido">Apellido</label>
-                  <Field type="text" name="apellido" className="form-control" />
+                  <Field
+                    type="text"
+                    name="user_lastname"
+                    className="form-control"
+                    maxLength="30"
+                  />
                   <ErrorMessage
-                    name="apellido"
+                    name="user_lastname"
                     component="div"
                     className="text-danger"
                   />
@@ -61,33 +112,44 @@ const Contacto = () => {
 
                 <div className="form-group">
                   <label htmlFor="telefono">Teléfono</label>
-                  <Field type="text" name="telefono" className="form-control" />
+                  <Field
+                    type="number"
+                    name="user_phone"
+                    className="form-control"
+                    maxLength="15"
+                  />
                   <ErrorMessage
-                    name="telefono"
+                    name="user_phone"
                     component="div"
                     className="text-danger"
                   />
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <Field type="email" name="email" className="form-control" />
+                  <label htmlFor="user_email">Email</label>
+                  <Field
+                    type="email"
+                    name="user_email"
+                    className="form-control"
+                    maxLength="50"
+                  />
                   <ErrorMessage
-                    name="email"
+                    name="user_email"
                     component="div"
                     className="text-danger"
                   />
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="consulta">Consulta</label>
+                  <label htmlFor="message">Consulta</label>
                   <Field
                     as="textarea"
-                    name="consulta"
+                    name="message"
                     className="form-control"
+                    maxLength="500"
                   />
                   <ErrorMessage
-                    name="consulta"
+                    name="message"
                     component="div"
                     className="text-danger"
                   />
@@ -101,7 +163,11 @@ const Contacto = () => {
           </Formik>
         </Col>
         <Col md={6}>
-          <img src={EscuelasRiver} alt="Contacto" className="logoContacto img-fluid" />
+          <img
+            src={EscuelasRiver}
+            alt="Contacto"
+            className="logoContacto img-fluid"
+          />
         </Col>
       </Row>
     </Container>

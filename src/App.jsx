@@ -3,14 +3,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Navegador from "./components/Navegador";
 import Footer from "./components/Footer";
 import Rutas from "./rutas/Rutas";
+import { AlumnoProvider } from "./context/AlumnoContext";
 
 function App() {
   return (
-    <div className="styleapp">
+    <AlumnoProvider>
       <Navegador />
       <Rutas />
       <Footer />
-    </div>
+    </AlumnoProvider>
   );
 }
 

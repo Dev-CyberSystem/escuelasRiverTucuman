@@ -1,20 +1,28 @@
+/* styleNav.css */
 .navbar-transparent {
     background-color: transparent !important;
     transition: background-color 0.5s ease;
-}
-
-.navbar-colored {
+  }
+  
+  .navbar-colored {
     background-color: #e11f1c !important;
     transition: background-color 0.5s ease;
-}
-
-.navbar-transparent .nav-link, 
-.navbar-colored .nav-link {
+  }
+  
+  .navbar-black {
+    background-color: #000 !important;
+    transition: background-color 0.5s ease;
+  }
+  
+  .navbar-transparent .nav-link, 
+  .navbar-colored .nav-link,
+  .navbar-black .nav-link {
     color: white !important;
     transition: color 0.5s ease;
-}
-
-.navbar-brand {
+  }
+  
+  .navbar-brand {
     color: white !important;
     transition: color 0.5s ease;
-}
+  }
+  

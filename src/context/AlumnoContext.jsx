@@ -9,7 +9,7 @@ const AlumnoProvider = ({ children }) => {
 
   const getAlumnos = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/alumnos");
+      const response = await axios.get("https://backescuelariver.onrender.com/api/alumnos");
       setAlumnosEscuela(response.data);
     } catch (error) {
       console.error(error);
@@ -18,7 +18,7 @@ const AlumnoProvider = ({ children }) => {
 
   const addAlumnos = async (alumno) => {
     try {
-      await axios.post("http://localhost:8080/api/alumnos", alumno, {
+      await axios.post("https://backescuelariver.onrender.com/api/alumnos", alumno, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -32,7 +32,7 @@ const AlumnoProvider = ({ children }) => {
 
   const deleteAlumno = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/alumnos/${id}`);
+      await axios.delete(`https://backescuelariver.onrender.com/api/alumnos/${id}`);
       getAlumnos(); // Actualiza la lista de alumnos después de eliminar uno
     } catch (error) {
       console.error(error);
@@ -40,12 +40,28 @@ const AlumnoProvider = ({ children }) => {
     }
   };
 
+  const updateAlumno = async (alumno) => {
+    console.log(alumno, "alumno EDICION <--------------")
+    try {
+        await axios.put(`https://backescuelariver.onrender.com/api/alumno/${alumno.id}`, alumno, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      getAlumnos(); // Actualiza la lista de alumnos después de editar uno
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+
   useEffect(() => {
     getAlumnos();
   }, []);
 
   return (
-    <AlumnoContext.Provider value={{ alumnosEscuela, addAlumnos, deleteAlumno }}>
+    <AlumnoContext.Provider value={{ alumnosEscuela, addAlumnos, deleteAlumno,updateAlumno }}>
       {children}
     </AlumnoContext.Provider>
   );

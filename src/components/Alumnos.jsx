@@ -11,6 +11,7 @@ import {
 import { AlumnoContext } from "../context/AlumnoContext";
 import "./styleAlumnos.css";
 import Swal from "sweetalert2";
+import FormularioAlta from "./FormularioAlta";
 
 const Alumnos = () => {
   const { alumnosEscuela, deleteAlumno } = useContext(AlumnoContext);
@@ -22,6 +23,7 @@ const Alumnos = () => {
   const [categoriaFiltro, setCategoriaFiltro] = useState("");
 
   const [showModal, setShowModal] = useState(false);
+  const [showModalEdicion, setShowModalEdicion] = useState(false);
   const [selectedAlumno, setSelectedAlumno] = useState(null);
 
   const handleNombreFiltroChange = (e) => {
@@ -36,15 +38,7 @@ const Alumnos = () => {
     setCategoriaFiltro(e.target.value);
   };
 
-  const handleShowModal = (alumno) => {
-    setSelectedAlumno(alumno);
-    setShowModal(true);
-  };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedAlumno(null);
-  };
 
   const alumnosFiltrados = alumnosEscuela.filter(
     (alumno) =>
@@ -65,16 +59,43 @@ const Alumnos = () => {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteAlumno(_id).then(() => {
-          Swal.fire("Borrado", "El alumno ha sido eliminado", "success");
-        }).catch((error) => {
-          Swal.fire("Error", "Hubo un problema al eliminar el alumno", "error");
-          console.log(error, "error");
-        });
+        deleteAlumno(_id)
+          .then(() => {
+            Swal.fire("Borrado", "El alumno ha sido eliminado", "success");
+          })
+          .catch((error) => {
+            Swal.fire(
+              "Error",
+              "Hubo un problema al eliminar el alumno",
+              "error"
+            );
+            console.log(error, "error");
+          });
       }
     });
   };
 
+  const handleShowModal = (alumno) => {
+    setSelectedAlumno(alumno);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedAlumno(null);
+  };
+
+  const handleEdit = () => {
+    setShowModal(false)
+    setShowModalEdicion(true);
+  };
+
+  const handleCloseModalEdicion = () => {
+    setShowModalEdicion(false);
+    // setSelectedAlumno(null);
+  };
+
+  console.log(selectedAlumno, "selectedAlumno")
   return (
     <Container fluid className="containerProfes">
       <Row className="mt-5 text-center">
@@ -139,11 +160,21 @@ const Alumnos = () => {
             className="d-flex justify-content-center mb-4"
           >
             <Card className="card-custom">
-              <Card.Img variant="top" src={alumno.imagen} className="card-img-top" />
+              <Card.Img
+                variant="top"
+                src={alumno.imagen}
+                className="card-img-top"
+              />
               <Card.Body className="card-body-custom">
-                <Card.Title className="card-title-custom">Nombre: {alumno.nombre} {alumno.apellido}</Card.Title>
-                <Card.Text className="card-text-custom">Posición: {alumno.posicion}</Card.Text>
-                <Card.Text className="card-text-custom">Categoria: {alumno.categoria}</Card.Text>
+                <Card.Title className="card-title-custom">
+                  Nombre: {alumno.nombre} {alumno.apellido}
+                </Card.Title>
+                <Card.Text className="card-text-custom">
+                  Posición: {alumno.posicion}
+                </Card.Text>
+                <Card.Text className="card-text-custom">
+                  Categoria: {alumno.categoria}
+                </Card.Text>
                 <Button
                   variant="primary"
                   className="card-button-custom"
@@ -164,63 +195,81 @@ const Alumnos = () => {
         ))}
       </Row>
 
+     
       {selectedAlumno && (
-        <Modal show={showModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title className="modal-title-custom">Información del Alumno</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="modal-content-custom">
-            <img
-              src={selectedAlumno.imagen}
-              alt="Imagen del alumno"
-              className="img-fluid-custom mb-3"
-            />
+        <>
+          <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal.Header closeButton>
+              <Modal.Title className="modal-title-custom">
+                Información del Alumno
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="modal-content-custom">
+              <img
+                src={selectedAlumno.imagen}
+                alt="Imagen del alumno"
+                className="img-fluid-custom mb-3"
+              />
 
-            <p>
-              <strong>Nombre:</strong> {selectedAlumno.nombre}
-            </p>
-            <p>
-              <strong>Apellido:</strong> {selectedAlumno.apellido}
-            </p>
-            <p>
-              <strong>DNI:</strong> {selectedAlumno.dni}
-            </p>
-            <p>
-              <strong>Fecha de Nacimiento:</strong>{" "}
-              {selectedAlumno.fechaNacimiento}
-            </p>
-            <p>
-              <strong>Teléfono:</strong> {selectedAlumno.telefono}
-            </p>
-            <p>
-              <strong>Dirección:</strong> {selectedAlumno.direccion}
-            </p>
-            <p>
-              <strong>Email:</strong> {selectedAlumno.email}
-            </p>
-            <p>
-              <strong>Padre/Tutor:</strong> {selectedAlumno.padreTutor}
-            </p>
-            <p>
-              <strong>Teléfono de Contacto:</strong>{" "}
-              {selectedAlumno.telefonoContacto}
-            </p>
-            <p>
-              <strong>Posición:</strong> {selectedAlumno.posicion}
-            </p>
-            <p>
-              <strong>Fecha de Ingreso:</strong> {selectedAlumno.fechaIngreso}
-            </p>
-            <p>
-              <strong>Observaciones:</strong> {selectedAlumno.observaciones}
-            </p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Cerrar
-            </Button>
-          </Modal.Footer>
-        </Modal>
+              <p>
+                <strong>Nombre:</strong> {selectedAlumno.nombre}
+              </p>
+              <p>
+                <strong>Apellido:</strong> {selectedAlumno.apellido}
+              </p>
+              <p>
+                <strong>DNI:</strong> {selectedAlumno.dni}
+              </p>
+              <p>
+                <strong>Fecha de Nacimiento:</strong>{" "}
+                {selectedAlumno.fechaNacimiento}
+              </p>
+              <p>
+                <strong>Teléfono:</strong> {selectedAlumno.telefono}
+              </p>
+              <p>
+                <strong>Dirección:</strong> {selectedAlumno.direccion}
+              </p>
+              <p>
+                <strong>Email:</strong> {selectedAlumno.email}
+              </p>
+              <p>
+                <strong>Padre/Tutor:</strong> {selectedAlumno.padreTutor}
+              </p>
+              <p>
+                <strong>Teléfono de Contacto:</strong>{" "}
+                {selectedAlumno.telefonoContacto}
+              </p>
+              <p>
+                <strong>Posición:</strong> {selectedAlumno.posicion}
+              </p>
+              <p>
+                <strong>Fecha de Ingreso:</strong> {selectedAlumno.fechaIngreso}
+              </p>
+              <p>
+                <strong>Observaciones:</strong> {selectedAlumno.observaciones}
+              </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={handleEdit}>
+                Editar
+              </Button>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                Cerrar
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          <Modal show={showModalEdicion} onHide={handleCloseModalEdicion}>
+            <Modal.Header closeButton>
+              <Modal.Title className="modal-title-custom">
+                Editar Información del Alumno
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="modal-content-custom">
+                <FormularioAlta selectedAlumno={selectedAlumno} handleCloseModalEdicion={handleCloseModalEdicion} />
+            </Modal.Body>
+          </Modal>
+        </>
       )}
     </Container>
   );

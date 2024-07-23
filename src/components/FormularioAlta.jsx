@@ -1,26 +1,29 @@
 import { useContext, useState } from "react";
 import { Form, Container, Row, Col, Button } from "react-bootstrap";
-import "./styleFormularioAlta.css";
 import { AlumnoContext } from "../context/AlumnoContext";
 import Swal from "sweetalert2";
+import PropTypes from "prop-types";
 
-const FormularioAlta = () => {
-  const { addAlumnos } = useContext(AlumnoContext);
+const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
+
+  console.log(selectedAlumno, "selectedAlumno Formulario<--------------")
+  const { addAlumnos, updateAlumno } = useContext(AlumnoContext);
 
   const [alumno, setAlumno] = useState({
-    nombre: "",
-    apellido: "",
-    dni: "",
-    categoria: "",
-    fechaNacimiento: "",
-    telefono: "",
-    direccion: "",
-    email: "",
-    padreTutor: "",
-    telefonoContacto: "",
-    posicion: "",
-    fechaIngreso: "",
-    observaciones: "",
+    id: selectedAlumno ? selectedAlumno._id : "",
+    nombre: selectedAlumno ? selectedAlumno.nombre : "",
+    apellido: selectedAlumno ? selectedAlumno.apellido : "",
+    dni: selectedAlumno ? selectedAlumno.dni : "",
+    categoria: selectedAlumno ? selectedAlumno.categoria : "",
+    fechaNacimiento: selectedAlumno ? selectedAlumno.fechaNacimiento : "",
+    telefono: selectedAlumno ? selectedAlumno.telefono : "",
+    direccion: selectedAlumno ? selectedAlumno.direccion : "",
+    email: selectedAlumno ? selectedAlumno.email : "",
+    padreTutor: selectedAlumno ? selectedAlumno.padreTutor : "",
+    telefonoContacto: selectedAlumno ? selectedAlumno.telefonoContacto : "",
+    posicion: selectedAlumno ? selectedAlumno.posicion : "",
+    fechaIngreso: selectedAlumno ? selectedAlumno.fechaIngreso : "",
+    observaciones: selectedAlumno ? selectedAlumno.observaciones : "",
     imagen: null,
   });
 
@@ -41,44 +44,47 @@ const FormularioAlta = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    for (const key in alumno) {
-      formData.append(key, alumno[key]);
-    }
-    addAlumnos(formData)
-      .then(() => {
-        Swal.fire({
-          title: "Alumno Agregado",
-          text: "El alumno ha sido agregado correctamente",
-          icon: "success",
-          confirmButtonText: "Aceptar",
-        });
-        setAlumno({
-          nombre: "",
-          apellido: "",
-          dni: "",
-          categoria: "",
-          fechaNacimiento: "",
-          telefono: "",
-          direccion: "",
-          email: "",
-          padreTutor: "",
-          telefonoContacto: "",
-          posicion: "",
-          fechaIngreso: "",
-          observaciones: "",
-          imagen: null,
-        });
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: "Error",
-          text: "Tenes que completar todos los campos",
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        });
-        console.log(error, "error")
+
+    if (selectedAlumno) {
+      updateAlumno(alumno);
+      Swal.fire({
+        title: "Alumno Editado",
+        text: "El alumno ha sido editado correctamente",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        timer: 2000,
       });
+      handleCloseModalEdicion();
+    } else {
+      const formData = new FormData();
+      for (const key in alumno) {
+        formData.append(key, alumno[key]);
+      }
+      addAlumnos(formData);
+      Swal.fire({
+        title: "Alumno Agregado",
+        text: "El alumno ha sido agregado correctamente",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        timer: 2000,
+      });
+      setAlumno({
+        nombre: "",
+        apellido: "",
+        dni: "",
+        categoria: "",
+        fechaNacimiento: "",
+        telefono: "",
+        direccion: "",
+        email: "",
+        padreTutor: "",
+        telefonoContacto: "",
+        posicion: "",
+        fechaIngreso: "",
+        observaciones: "",
+        imagen: null,
+      });
+    }
   };
 
   return (
@@ -120,13 +126,13 @@ const FormularioAlta = () => {
             <Form.Group>
               <Form.Label>Categoría</Form.Label>
               <Form.Control
-                type="number"
-                placeholder="Categoría"
                 value={alumno.categoria}
                 onChange={handleChange}
                 name="categoria"
+                type="number"
               />
             </Form.Group>
+
             <Form.Group>
               <Form.Label>Fecha de Nacimiento</Form.Label>
               <Form.Control
@@ -147,6 +153,7 @@ const FormularioAlta = () => {
                 name="telefono"
               />
             </Form.Group>
+
             <Form.Group>
               <Form.Label>Dirección</Form.Label>
               <Form.Control
@@ -157,6 +164,7 @@ const FormularioAlta = () => {
                 name="direccion"
               />
             </Form.Group>
+
             <Form.Group>
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -225,7 +233,7 @@ const FormularioAlta = () => {
                 name="imagen"
               />
             </Form.Group>
-            <Button type="submit" variant="outline-primary" className="mt-4">
+            <Button type="submit" className="btn btn-primary">
               Guardar
             </Button>
           </Form>
@@ -233,6 +241,11 @@ const FormularioAlta = () => {
       </Row>
     </Container>
   );
+};
+
+FormularioAlta.propTypes = {
+  selectedAlumno: PropTypes.object,
+  handleCloseModalEdicion: PropTypes.func,
 };
 
 export default FormularioAlta;

@@ -3,6 +3,7 @@ import { Container, Row, Col, Nav } from "react-bootstrap";
 import Alumnos from "../components/Alumnos";
 import "./styleDashboard.css"; // Asegúrate de importar el archivo CSS
 import FormularioAlta from "../components/FormularioAlta";
+import ListadoUsuarios from "./ListaUsuarios";
 
 const Dashboard = () => {
     const [activeTab, setActiveTab] = useState("alumnos");
@@ -11,14 +12,16 @@ const Dashboard = () => {
       switch (activeTab) {
         case "alumnos":
           return <Alumnos />;
-        case "otro":
+        case "formularioAltaAlumnos":
           return <FormularioAlta />;
+        case "usuarios":
+           return <ListadoUsuarios />;
         default:
           return <Alumnos />;
       }
     };
   
-    return (
+    return ( 
       <Container fluid>
         <Row>
           <Col md={3} className="sidebar-col">
@@ -30,16 +33,16 @@ const Dashboard = () => {
                 Alumnos
               </Nav.Link>
               <Nav.Link
-                className={activeTab === "otro" ? "active" : ""}
-                onClick={() => setActiveTab("otro")}
+                className={activeTab === "formularioAltaAlumnos" ? "active" : ""}
+                onClick={() => setActiveTab("formularioAltaAlumnos")}
               >
-                Formulario Alta
+                Formulario Alta Alumnos
               </Nav.Link>
               <Nav.Link
-                className={activeTab === "otro" ? "active" : ""}
-                onClick={() => setActiveTab("otro")}
+                className={activeTab === "usuarios" ? "active" : ""}
+                onClick={() => setActiveTab("usuarios")}
               >
-                Profes
+                Alta y lista de Usuarios
               </Nav.Link>
               <Nav.Link
                 className={activeTab === "otro" ? "active" : ""}
@@ -56,7 +59,7 @@ const Dashboard = () => {
               {/* Agrega más opciones según sea necesario */}
             </Nav>
           </Col>
-          <Col md={9} className="main-content">
+          <Col md={9} sm={3} className="main-content">
             {renderContent()}
           </Col>
         </Row>

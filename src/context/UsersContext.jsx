@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
+
 export const UsersProvider = createContext();
 
 // eslint-disable-next-line react/prop-types
@@ -11,7 +12,7 @@ const UsersContext = ({ children }) => {
 
   const getUsers = async () => {
     try {
-      const response = await axios.get("https://localhost:8080/api/usuarios");
+      const response = await axios.get("http://localhost:8080/api/usuarios");
       setUsuarios(response.data);
     } catch (error) {
       console.log(error);
@@ -19,8 +20,9 @@ const UsersContext = ({ children }) => {
   };
 
   const addUser = async (usuario) => {
+    console.log(usuario, "<------------   addUser");
     try {
-      await axios.post("https://localhost:8080/api/usuarios", usuario);
+      await axios.post("http://localhost:8080/api/registro", usuario);
       await getUsers(); //actualizar la lista de usuarios
     } catch (error) {
       console.log(error);
@@ -29,7 +31,7 @@ const UsersContext = ({ children }) => {
 
   const deleteUsuario = async (id) => {
     try {
-      await axios.delete(`https://localhost:8080/api/delete/${id}`);
+      await axios.delete(`http://localhost:8080/api/delete/${id}`);
       await getUsers();
     } catch (error) {
       console.log(error);
@@ -46,7 +48,7 @@ const UsersContext = ({ children }) => {
 
     try {
       await axios.put(
-        `https://localhost:8080/api/update/${usuario.id}`,
+        `http://localhost:8080/api/update/${usuario.id}`,
         usuario,
         {
           headers: {
@@ -70,7 +72,7 @@ const UsersContext = ({ children }) => {
     console.log(usuario, "loginUsuario");
     try {
       const response = await axios.post(
-        "https://localhost:8080/api/login",
+        "http://localhost:8080/api/login",
         usuario
       );
       console.log(response.data, "response.data desde el context");

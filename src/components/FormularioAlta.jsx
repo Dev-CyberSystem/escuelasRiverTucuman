@@ -88,7 +88,7 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
   };
 
   return (
-    <Container className="containerFormularioAlta">
+    <Container className="containerFormularioAlta mt-5">
       <Row>
         <Col>
           <h1>Formulario de Alta</h1>

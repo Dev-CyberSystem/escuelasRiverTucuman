@@ -35,7 +35,7 @@ const RegistroAsistencia = () => {
   const fetchAsistencias = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.get("http://localhost:8080/api/asistencias", {
+      const response = await axios.get("https://backescuelariver.onrender.com/api/asistencias", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -54,7 +54,7 @@ const RegistroAsistencia = () => {
     const token = localStorage.getItem("token");
     try {
       await axios.post(
-        "http://localhost:8080/api/asistencias",
+        "https://backescuelariver.onrender.com/api/asistencias",
         { alumnoId, fecha: fechaFiltro },
         {
           headers: {

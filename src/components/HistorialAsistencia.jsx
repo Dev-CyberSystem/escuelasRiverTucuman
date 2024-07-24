@@ -31,7 +31,7 @@ const HistorialAsistencia = () => {
     const token = localStorage.getItem("token");
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:8080/api/asistencias", {
+      const response = await axios.get("https://backescuelariver.onrender.com/api/asistencias", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

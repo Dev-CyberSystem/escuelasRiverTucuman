@@ -6,6 +6,7 @@ import FormularioAlta from "../components/FormularioAlta";
 import ListadoUsuarios from "./ListaUsuarios";
 import EstadisticasAlumnos from "../components/EstadisticasAlumnos";
 import RegistroPagos from "../components/RegistroPagos";
+import Asistencia from "../components/Asistencia";
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("alumnos");
 
@@ -21,6 +22,8 @@ const Dashboard = () => {
         return <EstadisticasAlumnos />;
       case "Pagos":
         return <RegistroPagos />;
+        case "asistencia":
+        return <Asistencia />;
       default:
         return <Alumnos />;
     }
@@ -62,10 +65,10 @@ const Dashboard = () => {
               Pagos
             </Nav.Link>
             <Nav.Link
-              className={activeTab === "partidos" ? "active" : ""}
-              onClick={() => setActiveTab("partidos")}
+              className={activeTab === "asistencia" ? "active" : ""}
+              onClick={() => setActiveTab("asistencia")}
             >
-              Partidos
+              Asistencia
             </Nav.Link>
           </Nav>
         </Col>

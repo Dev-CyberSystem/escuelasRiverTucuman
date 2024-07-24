@@ -43,7 +43,7 @@
 //   const updateAlumno = async (alumno) => {
 //     console.log(alumno, "alumno EDICION <--------------")
 //     try {
-//         await axios.put(`https://backescuelariver.onrender.com/api/alumno/${alumno.id}`, alumno, {
+//         await axios.put(`https://backescuelariver.onrender.com/api/alumno/${alumno._id}`, alumno, {
 //           headers: {
 //             "Content-Type": "multipart/form-data",
 //           },
@@ -55,13 +55,12 @@
 //     }
 //   }
 
-
 //   useEffect(() => {
 //     getAlumnos();
 //   }, []);
 
 //   return (
-//     <AlumnoContext.Provider value={{ alumnosEscuela, addAlumnos, deleteAlumno,updateAlumno }}>
+//     <AlumnoContext.Provider value={{ alumnosEscuela, addAlumnos, deleteAlumno, updateAlumno, getAlumnos }}>
 //       {children}
 //     </AlumnoContext.Provider>
 //   );
@@ -79,20 +78,36 @@ const AlumnoContext = createContext();
 const AlumnoProvider = ({ children }) => {
   const [alumnosEscuela, setAlumnosEscuela] = useState([]);
 
+  const getToken = () => localStorage.getItem('token');
+
+  // const getAlumnos = async () => {
+  //   const token = getToken();
+  //   try {
+  //     const response = await axios.get("https://backescuelariver.onrender.com/api/alumnos", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     });
+  //     setAlumnosEscuela(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   const getAlumnos = async () => {
     try {
-      const response = await axios.get("https://backescuelariver.onrender.com/api/alumnos");
+      const response = await axios.get('http://localhost:8080/api/alumnos');
       setAlumnosEscuela(response.data);
     } catch (error) {
-      console.error(error);
+      console.log('Error al obtener alumnos:', error);
     }
   };
-
   const addAlumnos = async (alumno) => {
+    const token = getToken();
     try {
       await axios.post("https://backescuelariver.onrender.com/api/alumnos", alumno, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`
         },
       });
       getAlumnos(); // Actualiza la lista de alumnos después de agregar uno nuevo
@@ -103,8 +118,13 @@ const AlumnoProvider = ({ children }) => {
   };
 
   const deleteAlumno = async (id) => {
+    const token = getToken();
     try {
-      await axios.delete(`https://backescuelariver.onrender.com/api/alumnos/${id}`);
+      await axios.delete(`https://backescuelariver.onrender.com/api/alumnos/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       getAlumnos(); // Actualiza la lista de alumnos después de eliminar uno
     } catch (error) {
       console.error(error);
@@ -113,26 +133,41 @@ const AlumnoProvider = ({ children }) => {
   };
 
   const updateAlumno = async (alumno) => {
-    console.log(alumno, "alumno EDICION <--------------")
+    const token = getToken();
     try {
-        await axios.put(`https://backescuelariver.onrender.com/api/alumno/${alumno._id}`, alumno, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+      await axios.put(`https://backescuelariver.onrender.com/api/alumno/${alumno.id}`, alumno, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`
+        },
+      });
       getAlumnos(); // Actualiza la lista de alumnos después de editar uno
     } catch (error) {
       console.error(error);
       throw error;
     }
-  }
+  };
+
+  const registrarPago = async (alumnoId, mes) => {
+    const token = getToken();
+    try {
+      await axios.post(`https://backescuelariver.onrender.com/api/alumnos/${alumnoId}/pagos`, { mes }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
 
   useEffect(() => {
     getAlumnos();
   }, []);
 
   return (
-    <AlumnoContext.Provider value={{ alumnosEscuela, addAlumnos, deleteAlumno, updateAlumno }}>
+    <AlumnoContext.Provider value={{ alumnosEscuela, getAlumnos, addAlumnos, deleteAlumno, updateAlumno, registrarPago }}>
       {children}
     </AlumnoContext.Provider>
   );
@@ -140,3 +175,4 @@ const AlumnoProvider = ({ children }) => {
 
 export { AlumnoContext, AlumnoProvider };
 export default AlumnoContext;
+

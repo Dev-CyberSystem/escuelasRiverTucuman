@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Form, Container, Row, Col, Button } from "react-bootstrap";
 import { AlumnoContext } from "../context/AlumnoContext";
 import Swal from "sweetalert2";
@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import axios from "axios";
 
 const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
-
   const { addAlumnos, updateAlumno } = useContext(AlumnoContext);
 
   const [alumno, setAlumno] = useState({
@@ -28,6 +27,9 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
     imagen: null,
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAlumno((prevAlumno) => ({
@@ -43,24 +45,33 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
     }));
   };
 
+  useEffect(() => {
+    const checkFormValidity = () => {
+      const isValid =
+        alumno.nombre &&
+        alumno.apellido &&
+        alumno.dni &&
+        alumno.categoria &&
+        alumno.fechaNacimiento &&
+        alumno.telefono &&
+        alumno.direccion &&
+        alumno.email &&
+        alumno.padreTutor &&
+        alumno.telefonoContacto &&
+        alumno.posicion &&
+        alumno.fechaIngreso &&
+        alumno.genero &&
+        alumno.observaciones &&
+        alumno.imagen !== null;
+
+      setIsFormValid(isValid);
+    };
+
+    checkFormValidity();
+  }, [alumno]);
+
   const validateForm = () => {
-    if (
-      alumno.nombre === "" ||
-      alumno.apellido === "" ||
-      alumno.dni === "" ||
-      alumno.categoria === "" ||
-      alumno.fechaNacimiento === "" ||
-      alumno.telefono === "" ||
-      alumno.direccion === "" ||
-      alumno.email === "" ||
-      alumno.padreTutor === "" ||
-      alumno.telefonoContacto === "" ||
-      alumno.posicion === "" ||
-      alumno.fechaIngreso === "" ||
-      alumno.genero === "" ||
-      alumno.observaciones === "" ||
-      alumno.imagen === null
-    ) {
+    if (!isFormValid) {
       Swal.fire({
         title: "Error",
         text: "Todos los campos son obligatorios",
@@ -114,6 +125,8 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
       return;
     }
 
+    setIsSubmitting(true);
+
     try {
       if (selectedAlumno) {
         await updateAlumno(alumno);
@@ -137,6 +150,7 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
               confirmButtonText: "Aceptar",
               timer: 2000,
             });
+            setIsSubmitting(false);
             return;
           }
         } catch (error) {
@@ -149,6 +163,7 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
               confirmButtonText: "Aceptar",
               timer: 2000,
             });
+            setIsSubmitting(false);
             return;
           }
           // Si es un error 404, continuar con la creación del alumno
@@ -212,6 +227,8 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
         });
       }
       console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -410,7 +427,11 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
                 name="imagen"
               />
             </Form.Group>
-            <Button type="submit" className="btn btn-primary mt-3">
+            <Button
+              type="submit"
+              className="btn btn-primary mt-3"
+              disabled={!isFormValid || isSubmitting}
+            >
               Guardar
             </Button>
           </Form>

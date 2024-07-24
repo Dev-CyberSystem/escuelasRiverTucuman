@@ -1,0 +1,48 @@
+.sidebar-nav {
+  background-color: #ff0000; /* Rojo */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 60px;
+}
+
+.sidebar-nav .nav-link {
+  color: #fff;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-nav .nav-link.active,
+.sidebar-nav .nav-link:hover {
+  background-color: #d00000;
+  color: #fff;
+}
+
+@media (min-width: 768px) {
+  .sidebar-col {
+    position: fixed;
+    top: 70px; /* Ajusta esto según la altura de tu nav principal */
+    left: 10px;
+    width: 200px; /* Ajusta el ancho según tus necesidades */
+    height: calc(100vh - 60px); /* Ajusta la altura */
+    overflow-y: auto; /* Permite desplazamiento si el contenido es demasiado largo */
+  }
+
+  .main-content {
+    margin-left: 220px; /* Ajusta según el ancho del sidebar */
+    padding: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .sidebar-col {
+    width: 100%;
+    margin-bottom: 20px; /* Añadir espacio entre sidebar y contenido en móvil */
+  }
+
+  .main-content {
+    width: 100%;
+    padding: 20px;
+  }
+}

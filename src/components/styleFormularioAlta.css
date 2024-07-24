@@ -1,0 +1,21 @@
+.containerFormularioAlta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* responsive */
+
+@media (min-width: 768px) {
+    .containerFormularioAlta {
+        width: 50%;
+    }
+}
+

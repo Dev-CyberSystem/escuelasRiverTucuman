@@ -1,0 +1,14 @@
+.containerEstadisticas {
+    margin-top: 20px;
+  }
+  
+  .card-custom {
+    margin-bottom: 20px;
+  }
+  
+  .piechart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

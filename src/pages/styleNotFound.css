@@ -1,0 +1,27 @@
+/* styleNotFound.css */
+  
+  .logoNotFound {
+    width: 20%;
+    height: 20%;
+    margin-top: 70px;
+  }
+
+/* hacer responsive */
+
+@media (max-width: 768px) {
+  .logoNotFound {
+    width: 50%;
+    height: 50%;
+  }
+}
+
+@media (max-width: 576px) {
+  .logoNotFound {
+    width: 70%;
+    height: 70%;
+  }
+}
+
+
+
+  

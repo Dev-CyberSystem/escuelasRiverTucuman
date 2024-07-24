@@ -3,7 +3,6 @@ import "./StyleFooter.css";
 import filial from "../assets/img/logoEscuela.png";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-
 const Footer = () => {
   return (
     <>

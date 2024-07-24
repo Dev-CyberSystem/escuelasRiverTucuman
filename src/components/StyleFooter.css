@@ -1,7 +1,17 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
 .containerFooter {
   background-color: #343a40;
   color: white;
   padding: 20px 0;
+  z-index: 1000; /* Asegura que esté sobre otros elementos */
+  width: 100%;
+  flex-shrink: 0;
 }
 
 .logoFooter {
@@ -33,4 +43,6 @@
   padding: 10px 0;
   text-align: center;
   font-size: 0.875rem;
+  width: 100%;
+  flex-shrink: 0;
 }

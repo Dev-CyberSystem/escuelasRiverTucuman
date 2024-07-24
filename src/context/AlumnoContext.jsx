@@ -133,9 +133,10 @@ const AlumnoProvider = ({ children }) => {
   };
 
   const updateAlumno = async (alumno) => {
+    console.log(alumno, "alumno EDICION <--------------")
     const token = getToken();
     try {
-      await axios.put(`https://backescuelariver.onrender.com/api/alumno/${alumno.id}`, alumno, {
+      await axios.put(`https://backescuelariver.onrender.com/api/alumno/${alumno._id}`, alumno, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`

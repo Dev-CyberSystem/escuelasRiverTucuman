@@ -30,7 +30,8 @@ const Navegador = () => {
   useEffect(() => {
     if (
       location.pathname === "/api/admin" ||
-      location.pathname === "/contacto"
+      location.pathname === "/contacto" ||
+      location.pathname === "/not-found"
     ) {
       setNavbarColor("navbar-black");
       window.removeEventListener("scroll", changeNavbarColorOnScroll);
@@ -69,7 +70,10 @@ const Navegador = () => {
                 </Nav.Link>
               ) : null}
 
-              {user ? (
+              
+            </Nav>
+          </Navbar.Collapse>
+          {user ? (
                 <Button variant="danger" onClick={() => logOut()}>
                   Cerrar Sesión
                 </Button>
@@ -78,8 +82,6 @@ const Navegador = () => {
                   Iniciar Sesión
                 </Button>
               )}
-            </Nav>
-          </Navbar.Collapse>
         </Container>
       </Navbar>
       <Modal show={show} onHide={handleClose}>

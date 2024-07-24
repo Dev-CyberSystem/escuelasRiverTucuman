@@ -12,7 +12,7 @@ const UsersContext = ({ children }) => {
 
   const getUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/usuarios");
+      const response = await axios.get("https://backescuelariver.onrender.com/api/usuarios");
       setUsuarios(response.data);
     } catch (error) {
       console.log(error);
@@ -20,9 +20,8 @@ const UsersContext = ({ children }) => {
   };
 
   const addUser = async (usuario) => {
-    console.log(usuario, "<------------   addUser");
     try {
-      await axios.post("http://localhost:8080/api/registro", usuario);
+      await axios.post("https://backescuelariver.onrender.com/api/registro", usuario);
       await getUsers(); //actualizar la lista de usuarios
     } catch (error) {
       console.log(error);
@@ -31,7 +30,7 @@ const UsersContext = ({ children }) => {
 
   const deleteUsuario = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/delete/${id}`);
+      await axios.delete(`https://backescuelariver.onrender.com/api/delete/${id}`);
       await getUsers();
     } catch (error) {
       console.log(error);
@@ -39,7 +38,6 @@ const UsersContext = ({ children }) => {
   };
 
   const editUsuario = async (usuario) => {
-    console.log(usuario, "editUsuario");
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -48,7 +46,7 @@ const UsersContext = ({ children }) => {
 
     try {
       await axios.put(
-        `http://localhost:8080/api/update/${usuario.id}`,
+        `https://backescuelariver.onrender.com/api/update/${usuario.id}`,
         usuario,
         {
           headers: {
@@ -69,14 +67,11 @@ const UsersContext = ({ children }) => {
   };
 
   const loginUsuario = async (usuario) => {
-    console.log(usuario, "loginUsuario");
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/login",
+        "https://backescuelariver.onrender.com/api/login",
         usuario
       );
-      console.log(response.data, "response.data desde el context");
-
       const { token } = response.data.data;
       localStorage.setItem("token", token);
       const decoded = jwtDecode(token);

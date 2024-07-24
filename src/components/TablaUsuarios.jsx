@@ -34,7 +34,6 @@ const TablaUsuarios = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>#</th>
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Admin</th>
@@ -45,7 +44,6 @@ const TablaUsuarios = () => {
               {usuarios.map((usuario) => (
                 <>
                   <tr>
-                    <td>{usuario._id}</td>
                     <td>{usuario.nombre}</td>
                     <td>{usuario.email}</td>
                     <td>{usuario.admin ? "Si" : "No"}</td>
@@ -55,7 +53,7 @@ const TablaUsuarios = () => {
                         onClick={() => handleEdit(usuario)}
                       >
                         Editar
-                      </Button>
+                      </Button> {" "}
                       <Button
                         variant="danger"
                         onClick={() => deleteUsuario(usuario.id)}

@@ -53,3 +53,7 @@
   font-weight: bold;
   margin-bottom: 20px;
 }
+
+.inhabilitado {
+  opacity: 0.5;
+}

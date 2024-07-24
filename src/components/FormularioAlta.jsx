@@ -93,128 +93,161 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
         <Col>
           <h1>Formulario de Alta</h1>
           <Form onSubmit={handleSubmit}>
-            <Form.Group>
-              <Form.Label>Nombre</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Nombre"
-                value={alumno.nombre}
-                onChange={handleChange}
-                name="nombre"
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Apellido</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Apellido"
-                value={alumno.apellido}
-                onChange={handleChange}
-                name="apellido"
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>DNI</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="DNI"
-                value={alumno.dni}
-                onChange={handleChange}
-                name="dni"
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Categoría</Form.Label>
-              <Form.Control
-                value={alumno.categoria}
-                onChange={handleChange}
-                name="categoria"
-                type="number"
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Fecha de Nacimiento</Form.Label>
-              <Form.Control
-                type="date"
-                placeholder="Fecha de Nacimiento"
-                value={alumno.fechaNacimiento}
-                onChange={handleChange}
-                name="fechaNacimiento"
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Teléfono</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Teléfono"
-                value={alumno.telefono}
-                onChange={handleChange}
-                name="telefono"
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Dirección</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Dirección"
-                value={alumno.direccion}
-                onChange={handleChange}
-                name="direccion"
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Email"
-                value={alumno.email}
-                onChange={handleChange}
-                name="email"
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Padre/Tutor</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Padre/Tutor"
-                value={alumno.padreTutor}
-                onChange={handleChange}
-                name="padreTutor"
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Teléfono de Contacto</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Teléfono de Contacto"
-                value={alumno.telefonoContacto}
-                onChange={handleChange}
-                name="telefonoContacto"
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Posición</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Posición"
-                value={alumno.posicion}
-                onChange={handleChange}
-                name="posicion"
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Fecha de Ingreso</Form.Label>
-              <Form.Control
-                type="date"
-                placeholder="Fecha de Ingreso"
-                value={alumno.fechaIngreso}
-                onChange={handleChange}
-                name="fechaIngreso"
-              />
-            </Form.Group>
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Nombre</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Nombre"
+                    value={alumno.nombre}
+                    onChange={handleChange}
+                    name="nombre"
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Apellido</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Apellido"
+                    value={alumno.apellido}
+                    onChange={handleChange}
+                    name="apellido"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>DNI</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="DNI"
+                    value={alumno.dni}
+                    onChange={handleChange}
+                    name="dni"
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Categoría</Form.Label>
+                  <Form.Control
+                    value={alumno.categoria}
+                    onChange={handleChange}
+                    name="categoria"
+                    type="number"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Fecha de Nacimiento</Form.Label>
+                  <Form.Control
+                    type="date"
+                    placeholder="Fecha de Nacimiento"
+                    value={alumno.fechaNacimiento}
+                    onChange={handleChange}
+                    name="fechaNacimiento"
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Teléfono</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Teléfono"
+                    value={alumno.telefono}
+                    onChange={handleChange}
+                    name="telefono"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Dirección</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Dirección"
+                    value={alumno.direccion}
+                    onChange={handleChange}
+                    name="direccion"
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Email"
+                    value={alumno.email}
+                    onChange={handleChange}
+                    name="email"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Padre/Tutor</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Padre/Tutor"
+                    value={alumno.padreTutor}
+                    onChange={handleChange}
+                    name="padreTutor"
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Teléfono de Contacto</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Teléfono de Contacto"
+                    value={alumno.telefonoContacto}
+                    onChange={handleChange}
+                    name="telefonoContacto"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Posición</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Posición"
+                    value={alumno.posicion}
+                    onChange={handleChange}
+                    name="posicion"
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Fecha de Ingreso</Form.Label>
+                  <Form.Control
+                    type="date"
+                    placeholder="Fecha de Ingreso"
+                    value={alumno.fechaIngreso}
+                    onChange={handleChange}
+                    name="fechaIngreso"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
             <Form.Group>
               <Form.Label>Observaciones</Form.Label>
               <Form.Control
@@ -233,7 +266,7 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
                 name="imagen"
               />
             </Form.Group>
-            <Button type="submit" className="btn btn-primary">
+            <Button type="submit" className="btn btn-primary mt-3">
               Guardar
             </Button>
           </Form>

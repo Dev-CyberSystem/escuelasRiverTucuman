@@ -4,7 +4,7 @@ import Alumnos from "../components/Alumnos";
 import "./styleDashboard.css"; // Asegúrate de importar el archivo CSS
 import FormularioAlta from "../components/FormularioAlta";
 import ListadoUsuarios from "./ListaUsuarios";
-
+import EstadisticasAlumnos from "../components/EstadisticasAlumnos";
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("alumnos");
 
@@ -16,6 +16,8 @@ const Dashboard = () => {
         return <FormularioAlta />;
       case "usuarios":
         return <ListadoUsuarios />;
+      case "estadisticas":
+        return <EstadisticasAlumnos />;
       default:
         return <Alumnos />;
     }
@@ -45,10 +47,10 @@ const Dashboard = () => {
               Alta y lista de Usuarios
             </Nav.Link>
             <Nav.Link
-              className={activeTab === "entrenamientos" ? "active" : ""}
-              onClick={() => setActiveTab("entrenamientos")}
+              className={activeTab === "estadisticas" ? "active" : ""}
+              onClick={() => setActiveTab("estadisticas")}
             >
-              Entrenamientos
+              Estadisticas
             </Nav.Link>
             <Nav.Link
               className={activeTab === "partidos" ? "active" : ""}

@@ -311,6 +311,9 @@ const Alumnos = () => {
                 <strong>Fecha de Ingreso:</strong> {selectedAlumno.fechaIngreso}
               </p>
               <p>
+                <strong>Genero:</strong> {selectedAlumno.genero}
+              </p>
+              <p>
                 <strong>Observaciones:</strong> {selectedAlumno.observaciones}
               </p>
               <p>

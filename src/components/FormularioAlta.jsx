@@ -3,10 +3,10 @@ import { Form, Container, Row, Col, Button } from "react-bootstrap";
 import { AlumnoContext } from "../context/AlumnoContext";
 import Swal from "sweetalert2";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
 
-  console.log(selectedAlumno, "selectedAlumno Formulario<--------------")
   const { addAlumnos, updateAlumno } = useContext(AlumnoContext);
 
   const [alumno, setAlumno] = useState({
@@ -23,6 +23,7 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
     telefonoContacto: selectedAlumno ? selectedAlumno.telefonoContacto : "",
     posicion: selectedAlumno ? selectedAlumno.posicion : "",
     fechaIngreso: selectedAlumno ? selectedAlumno.fechaIngreso : "",
+    genero: selectedAlumno ? selectedAlumno.genero : "Masculino",
     observaciones: selectedAlumno ? selectedAlumno.observaciones : "",
     imagen: null,
   });
@@ -42,48 +43,175 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    if (
+      alumno.nombre === "" ||
+      alumno.apellido === "" ||
+      alumno.dni === "" ||
+      alumno.categoria === "" ||
+      alumno.fechaNacimiento === "" ||
+      alumno.telefono === "" ||
+      alumno.direccion === "" ||
+      alumno.email === "" ||
+      alumno.padreTutor === "" ||
+      alumno.telefonoContacto === "" ||
+      alumno.posicion === "" ||
+      alumno.fechaIngreso === "" ||
+      alumno.genero === "" ||
+      alumno.observaciones === "" ||
+      alumno.imagen === null
+    ) {
+      Swal.fire({
+        title: "Error",
+        text: "Todos los campos son obligatorios",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        timer: 2000,
+      });
+      return false;
+    }
+
+    if (alumno.dni.length !== 8) {
+      Swal.fire({
+        title: "Error",
+        text: "El DNI debe tener 8 dígitos",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        timer: 2000,
+      });
+      return false;
+    }
+
+    if (alumno.telefono.length !== 10) {
+      Swal.fire({
+        title: "Error",
+        text: "El teléfono debe tener 10 dígitos",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        timer: 2000,
+      });
+      return false;
+    }
+
+    if (alumno.telefonoContacto.length !== 10) {
+      Swal.fire({
+        title: "Error",
+        text: "El teléfono de contacto debe tener 10 dígitos",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        timer: 2000,
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (selectedAlumno) {
-      updateAlumno(alumno);
-      Swal.fire({
-        title: "Alumno Editado",
-        text: "El alumno ha sido editado correctamente",
-        icon: "success",
-        confirmButtonText: "Aceptar",
-        timer: 2000,
-      });
-      handleCloseModalEdicion();
-    } else {
-      const formData = new FormData();
-      for (const key in alumno) {
-        formData.append(key, alumno[key]);
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      if (selectedAlumno) {
+        await updateAlumno(alumno);
+        Swal.fire({
+          title: "Alumno Editado",
+          text: "El alumno ha sido editado correctamente",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+          timer: 2000,
+        });
+        handleCloseModalEdicion();
+      } else {
+        // Verificar si el DNI ya existe en la base de datos
+        try {
+          const response = await axios.get(`https://backescuelariver.onrender.com/api/alumno/dni/${alumno.dni}`);
+          if (response.data) {
+            Swal.fire({
+              title: "Error",
+              text: "El DNI ya existe en la base de datos",
+              icon: "error",
+              confirmButtonText: "Aceptar",
+              timer: 2000,
+            });
+            return;
+          }
+        } catch (error) {
+          if (error.response && error.response.status !== 404) {
+            // Si no es un error 404, manejarlo
+            Swal.fire({
+              title: "Error",
+              text: "Ocurrió un error al verificar el DNI",
+              icon: "error",
+              confirmButtonText: "Aceptar",
+              timer: 2000,
+            });
+            return;
+          }
+          // Si es un error 404, continuar con la creación del alumno
+        }
+
+        const formData = new FormData();
+        for (const key in alumno) {
+          formData.append(key, alumno[key]);
+        }
+
+        await addAlumnos(formData);
+        Swal.fire({
+          title: "Alumno Agregado",
+          text: "El alumno ha sido agregado correctamente",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+          timer: 2000,
+        });
+        setAlumno({
+          nombre: "",
+          apellido: "",
+          dni: "",
+          categoria: "",
+          fechaNacimiento: "",
+          telefono: "",
+          direccion: "",
+          email: "",
+          padreTutor: "",
+          telefonoContacto: "",
+          posicion: "",
+          fechaIngreso: "",
+          genero: "Masculino",
+          observaciones: "",
+          imagen: null,
+        });
       }
-      addAlumnos(formData);
-      Swal.fire({
-        title: "Alumno Agregado",
-        text: "El alumno ha sido agregado correctamente",
-        icon: "success",
-        confirmButtonText: "Aceptar",
-        timer: 2000,
-      });
-      setAlumno({
-        nombre: "",
-        apellido: "",
-        dni: "",
-        categoria: "",
-        fechaNacimiento: "",
-        telefono: "",
-        direccion: "",
-        email: "",
-        padreTutor: "",
-        telefonoContacto: "",
-        posicion: "",
-        fechaIngreso: "",
-        observaciones: "",
-        imagen: null,
-      });
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        Swal.fire({
+          title: "Error",
+          text: "Error de validación: " + error.response.data.message,
+          icon: "error",
+          confirmButtonText: "Aceptar",
+          timer: 2000,
+        });
+      } else if (error.response && error.response.status === 500) {
+        Swal.fire({
+          title: "Error",
+          text: "Error del servidor, por favor intente nuevamente más tarde",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+          timer: 2000,
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Ocurrió un error inesperado",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+          timer: 2000,
+        });
+      }
+      console.error(error);
     }
   };
 
@@ -245,6 +373,22 @@ const FormularioAlta = ({ selectedAlumno, handleCloseModalEdicion }) => {
                     onChange={handleChange}
                     name="fechaIngreso"
                   />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Género</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={alumno.genero}
+                    onChange={handleChange}
+                    name="genero"
+                  >
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                  </Form.Control>
                 </Form.Group>
               </Col>
             </Row>

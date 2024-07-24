@@ -95,7 +95,7 @@ const AlumnoProvider = ({ children }) => {
   // };
   const getAlumnos = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/alumnos');
+      const response = await axios.get('https://backescuelariver.onrender.com/api/alumnos');
       setAlumnosEscuela(response.data);
     } catch (error) {
       console.log('Error al obtener alumnos:', error);
@@ -133,8 +133,7 @@ const AlumnoProvider = ({ children }) => {
   };
 
   const updateAlumno = async (alumno) => {
-    console.log(alumno, "alumno EDICION <--------------")
-    const token = getToken();
+   const token = getToken();
     try {
       await axios.put(`https://backescuelariver.onrender.com/api/alumno/${alumno._id}`, alumno, {
         headers: {

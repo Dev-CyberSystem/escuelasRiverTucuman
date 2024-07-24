@@ -99,8 +99,6 @@ const Login = ({ handleClose }) => {
 
   const { loginUsuario, usuarioLogueado } = useContext(UsersProvider);
 
-  console.log(usuarioLogueado, "usuarios en el login");
-
   const navigate = useNavigate();
 
   useEffect(() => {

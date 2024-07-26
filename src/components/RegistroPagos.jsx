@@ -1,19 +1,9 @@
 import { useContext, useState, useEffect } from "react";
-import {
-  Form,
-  Button,
-  Container,
-  Row,
-  Col,
-  Table,
-  Modal,
-  Alert,
-  Pagination,
-} from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Table, Modal, Alert, Pagination } from "react-bootstrap";
 import { AlumnoContext } from "../context/AlumnoContext";
-import './StyleRegistroPagos.css';
 import axios from "axios";
 import Swal from "sweetalert2";
+import './StyleRegistroPagos.css';
 
 const RegistroPagos = () => {
   const { alumnosEscuela, getAlumnos } = useContext(AlumnoContext);
@@ -206,89 +196,87 @@ const RegistroPagos = () => {
     setCurrentPage(pageNumber);
   };
 
-  console.log(historialPagos, "Historial de Pagos");
-
   return (
     <Container>
       <Row className="mt-5 justify-content-md-center">
         <Col md={8}>
           <h1>Registrar Pago</h1>
           <Form onSubmit={handleSubmit} className="registro-pagos-form">
-          <Form.Group className="form-group-custom">
-            <Form.Label>Buscar por nombre</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Buscar por nombre"
-              value={nombreFiltro}
-              onChange={handleNombreFiltroChange}
-              className="rounded-input"
-            />
-          </Form.Group>
-          <Form.Group className="form-group-custom">
-            <Form.Label>Alumno</Form.Label>
-            <Form.Control
-              as="select"
-              value={alumnoId}
-              onChange={handleAlumnoChange}
-              className="rounded-input"
+            <Form.Group className="form-group-custom">
+              <Form.Label>Buscar por nombre</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Buscar por nombre"
+                value={nombreFiltro}
+                onChange={handleNombreFiltroChange}
+                className="rounded-input"
+              />
+            </Form.Group>
+            <Form.Group className="form-group-custom">
+              <Form.Label>Alumno</Form.Label>
+              <Form.Control
+                as="select"
+                value={alumnoId}
+                onChange={handleAlumnoChange}
+                className="rounded-input"
+              >
+                <option value="">Seleccionar Alumno</option>
+                {alumnosFiltrados.map((alumno) => (
+                  <option key={alumno._id} value={alumno._id}>
+                    {alumno.nombre} {alumno.apellido}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="form-group-custom">
+                  <Form.Label>Mes</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={mes}
+                    onChange={(e) => setMes(e.target.value)}
+                    className="rounded-input"
+                  >
+                    <option value="">Seleccionar Mes</option>
+                    {mesesAdeudados.map((mes) => (
+                      <option key={mes.valor} value={mes.valor}>
+                        {mes.nombre}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="form-group-custom">
+                  <Form.Label>Monto</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={monto}
+                    onChange={(e) => setMonto(e.target.value)}
+                    className="rounded-input"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Form.Group className="form-group-custom">
+              <Form.Label>Fecha de Pago</Form.Label>
+              <Form.Control
+                type="date"
+                value={fechaPago}
+                onChange={(e) => setFechaPago(e.target.value)}
+                className="rounded-input"
+              />
+            </Form.Group>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={loading || !alumnoId || !mes || !monto || !fechaPago}
+              className="rounded-input submit-button"
             >
-              <option value="">Seleccionar Alumno</option>
-              {alumnosFiltrados.map((alumno) => (
-                <option key={alumno._id} value={alumno._id}>
-                  {alumno.nombre} {alumno.apellido}
-                </option>
-              ))}
-            </Form.Control>
-          </Form.Group>
-          <Row>
-            <Col md={6}>
-              <Form.Group className="form-group-custom">
-                <Form.Label>Mes</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={mes}
-                  onChange={(e) => setMes(e.target.value)}
-                  className="rounded-input"
-                >
-                  <option value="">Seleccionar Mes</option>
-                  {mesesAdeudados.map((mes) => (
-                    <option key={mes.valor} value={mes.valor}>
-                      {mes.nombre}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-            </Col>
-            <Col md={6}>
-              <Form.Group className="form-group-custom">
-                <Form.Label>Monto</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={monto}
-                  onChange={(e) => setMonto(e.target.value)}
-                  className="rounded-input"
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Form.Group className="form-group-custom">
-            <Form.Label>Fecha de Pago</Form.Label>
-            <Form.Control
-              type="date"
-              value={fechaPago}
-              onChange={(e) => setFechaPago(e.target.value)}
-              className="rounded-input"
-            />
-          </Form.Group>
-          <Button
-            type="submit"
-            variant="primary"
-            disabled={loading || !alumnoId || !mes || !monto || !fechaPago}
-            className="rounded-input submit-button"
-          >
-            {loading ? "Registrando..." : "Registrar Pago"}
-          </Button>
-        </Form>
+              {loading ? "Registrando..." : "Registrar Pago"}
+            </Button>
+          </Form>
         </Col>
       </Row>
       <Row className="mt-5">
@@ -362,7 +350,6 @@ const RegistroPagos = () => {
             </Alert>
           </Col>
         </Row>
-      
       )}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>

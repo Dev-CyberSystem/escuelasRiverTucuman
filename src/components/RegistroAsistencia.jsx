@@ -3,7 +3,7 @@ import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
 import { AlumnoContext } from "../context/AlumnoContext";
 import axios from "axios";
 import Swal from "sweetalert2";
-import moment from "moment";
+import moment from "moment-timezone";
 
 const RegistroAsistencia = () => {
   const { alumnosEscuela, getAlumnos } = useContext(AlumnoContext);
@@ -35,7 +35,6 @@ const RegistroAsistencia = () => {
           },
         }
       );
-      console.log("Asistencias obtenidas del servidor:", response.data);
       setAsistencias(response.data);
     } catch (error) {
       console.error("Error al obtener asistencias:", error);
@@ -43,22 +42,21 @@ const RegistroAsistencia = () => {
   };
 
   useEffect(() => {
-    const alumnosConAsistencia = asistencias.map((a) => a.alumnoId._id);
-    console.log("IDs de alumnos con asistencia registrada en la fecha:", alumnosConAsistencia);
-    setAlumnosFiltrados(
-      alumnosEscuela.filter(
-        (alumno) =>
-          alumno.nombre.toLowerCase().includes(nombreFiltro.toLowerCase()) &&
-          !alumnosConAsistencia.includes(alumno._id)
-      )
-    );
-  }, [nombreFiltro, alumnosEscuela, asistencias]);
+    if (fechaFiltro) {
+      const alumnosConAsistencia = asistencias.map((a) => a.alumnoId._id);
+      setAlumnosFiltrados(
+        alumnosEscuela.filter(
+          (alumno) =>
+            alumno.nombre.toLowerCase().includes(nombreFiltro.toLowerCase()) &&
+            !alumnosConAsistencia.includes(alumno._id)
+        )
+      );
+    }
+  }, [nombreFiltro, alumnosEscuela, asistencias, fechaFiltro]);
 
   const handleAsistencia = async (alumnoId) => {
     const token = localStorage.getItem("token");
     const fechaFormateada = moment(fechaFiltro).format("DD-MM-YYYY");
-
-    console.log("Fecha enviada:", fechaFormateada);
 
     try {
       const response = await axios.post(
@@ -70,7 +68,10 @@ const RegistroAsistencia = () => {
           },
         }
       );
-      console.log("Respuesta del servidor al registrar asistencia:", response.data);
+      console.log(
+        "Respuesta del servidor al registrar asistencia:",
+        response.data
+      );
       Swal.fire(
         "Asistencia Registrada",
         "La asistencia ha sido registrada correctamente",
@@ -84,7 +85,8 @@ const RegistroAsistencia = () => {
       } else {
         Swal.fire(
           "Error",
-          error.response.data.message || "Hubo un problema al registrar la asistencia",
+          error.response.data.message ||
+            "Hubo un problema al registrar la asistencia",
           "error"
         );
       }
@@ -97,15 +99,6 @@ const RegistroAsistencia = () => {
         <Col>
           <h1>Registro de Asistencia</h1>
           <Form.Group>
-            <Form.Label>Buscar por nombre</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Buscar por nombre"
-              value={nombreFiltro}
-              onChange={(e) => setNombreFiltro(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group>
             <Form.Label>Fecha</Form.Label>
             <Form.Control
               type="date"
@@ -114,35 +107,51 @@ const RegistroAsistencia = () => {
               max={moment().format("YYYY-MM-DD")} // Deshabilita fechas futuras
             />
           </Form.Group>
-          <Table striped bordered hover className="mt-3">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Categoría</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {alumnosFiltrados.map((alumno) => (
-                <tr key={alumno._id}>
-                  <td>{alumno.nombre}</td>
-                  <td>{alumno.apellido}</td>
-                  <td>{alumno.categoria}</td>
-                  <td>
-                    <Button
-                      variant="success"
-                      onClick={() => handleAsistencia(alumno._id)}
-                    >
-                      Registrar Asistencia
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          {alumnosFiltrados.length === 0 && (
-            <p>No hay alumnos disponibles para registrar asistencia en esta fecha.</p>
+          {fechaFiltro && (
+            <>
+              <Form.Group>
+                <Form.Label>Buscar por nombre</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Buscar por nombre"
+                  value={nombreFiltro}
+                  onChange={(e) => setNombreFiltro(e.target.value)}
+                />
+              </Form.Group>
+              <Table striped bordered hover className="mt-3">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Categoría</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {alumnosFiltrados.map((alumno) => (
+                    <tr key={alumno._id}>
+                      <td>{alumno.nombre}</td>
+                      <td>{alumno.apellido}</td>
+                      <td>{alumno.categoria}</td>
+                      <td>
+                        <Button
+                          variant="success"
+                          onClick={() => handleAsistencia(alumno._id)}
+                        >
+                          Registrar Asistencia
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              {alumnosFiltrados.length === 0 && (
+                <p>
+                  No hay alumnos disponibles para registrar asistencia en esta
+                  fecha.
+                </p>
+              )}
+            </>
           )}
         </Col>
       </Row>

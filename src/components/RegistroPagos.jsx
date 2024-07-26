@@ -11,6 +11,7 @@ import {
   Pagination,
 } from "react-bootstrap";
 import { AlumnoContext } from "../context/AlumnoContext";
+import './StyleRegistroPagos.css';
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -194,7 +195,10 @@ const RegistroPagos = () => {
   // Paginación
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = alumnosConDeudas.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = alumnosConDeudas.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const totalPages = Math.ceil(alumnosConDeudas.length / itemsPerPage);
 
@@ -202,81 +206,95 @@ const RegistroPagos = () => {
     setCurrentPage(pageNumber);
   };
 
+  console.log(historialPagos, "Historial de Pagos");
+
   return (
     <Container>
-      <Row className="mt-5">
-        <Col>
+      <Row className="mt-5 justify-content-md-center">
+        <Col md={8}>
           <h1>Registrar Pago</h1>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group>
-              <Form.Label>Buscar por nombre</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Buscar por nombre"
-                value={nombreFiltro}
-                onChange={handleNombreFiltroChange}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Alumno</Form.Label>
-              <Form.Control
-                as="select"
-                value={alumnoId}
-                onChange={handleAlumnoChange}
-              >
-                <option value="">Seleccionar Alumno</option>
-                {alumnosFiltrados.map((alumno) => (
-                  <option key={alumno._id} value={alumno._id}>
-                    {alumno.nombre} {alumno.apellido}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Mes</Form.Label>
-              <Form.Control
-                as="select"
-                value={mes}
-                onChange={(e) => setMes(e.target.value)}
-              >
-                <option value="">Seleccionar Mes</option>
-                {mesesAdeudados.map((mes) => (
-                  <option key={mes.valor} value={mes.valor}>
-                    {mes.nombre}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Monto</Form.Label>
-              <Form.Control
-                type="number"
-                value={monto}
-                onChange={(e) => setMonto(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Fecha de Pago</Form.Label>
-              <Form.Control
-                type="date"
-                value={fechaPago}
-                onChange={(e) => setFechaPago(e.target.value)}
-              />
-            </Form.Group>
-            <Button
-              type="submit"
-              variant="primary"
-              disabled={loading || !alumnoId || !mes || !monto || !fechaPago}
+          <Form onSubmit={handleSubmit} className="registro-pagos-form">
+          <Form.Group className="form-group-custom">
+            <Form.Label>Buscar por nombre</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Buscar por nombre"
+              value={nombreFiltro}
+              onChange={handleNombreFiltroChange}
+              className="rounded-input"
+            />
+          </Form.Group>
+          <Form.Group className="form-group-custom">
+            <Form.Label>Alumno</Form.Label>
+            <Form.Control
+              as="select"
+              value={alumnoId}
+              onChange={handleAlumnoChange}
+              className="rounded-input"
             >
-              {loading ? "Registrando..." : "Registrar Pago"}
-            </Button>
-          </Form>
+              <option value="">Seleccionar Alumno</option>
+              {alumnosFiltrados.map((alumno) => (
+                <option key={alumno._id} value={alumno._id}>
+                  {alumno.nombre} {alumno.apellido}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+          <Row>
+            <Col md={6}>
+              <Form.Group className="form-group-custom">
+                <Form.Label>Mes</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={mes}
+                  onChange={(e) => setMes(e.target.value)}
+                  className="rounded-input"
+                >
+                  <option value="">Seleccionar Mes</option>
+                  {mesesAdeudados.map((mes) => (
+                    <option key={mes.valor} value={mes.valor}>
+                      {mes.nombre}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group className="form-group-custom">
+                <Form.Label>Monto</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={monto}
+                  onChange={(e) => setMonto(e.target.value)}
+                  className="rounded-input"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Form.Group className="form-group-custom">
+            <Form.Label>Fecha de Pago</Form.Label>
+            <Form.Control
+              type="date"
+              value={fechaPago}
+              onChange={(e) => setFechaPago(e.target.value)}
+              className="rounded-input"
+            />
+          </Form.Group>
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={loading || !alumnoId || !mes || !monto || !fechaPago}
+            className="rounded-input submit-button"
+          >
+            {loading ? "Registrando..." : "Registrar Pago"}
+          </Button>
+        </Form>
         </Col>
       </Row>
       <Row className="mt-5">
         <Col>
           <h2>Alumnos</h2>
-          <Table striped bordered hover>
+          <Table striped bordered hover className="styled-table">
             <thead>
               <tr>
                 <th>Nombre</th>
@@ -284,7 +302,7 @@ const RegistroPagos = () => {
                 <th>Categoría</th>
                 <th>Estado</th>
                 <th>Estado de Pago</th>
-                <th>Meses Adeudados</th> {/* Nueva columna */}
+                <th>Meses Adeudados</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -296,9 +314,7 @@ const RegistroPagos = () => {
                   <td>{alumno.categoria}</td>
                   <td>{alumno.habilitado ? "Habilitado" : "Inhabilitado"}</td>
                   <td>{alumno.estadoPago}</td>
-                  <td>
-                    {alumno.mesesAdeudados?.join(", ") || "Ninguno"}
-                  </td> {/* Mostrar los meses adeudados */}
+                  <td>{alumno.mesesAdeudados?.join(", ") || "Ninguno"}</td>
                   <td>
                     <Button
                       variant="info"
@@ -327,19 +343,26 @@ const RegistroPagos = () => {
       {alumnosConDeudas.length > 0 && (
         <Row className="mt-5">
           <Col>
-            <Alert variant="warning">
+            <Alert variant="warning" className="styled-alert">
               <Alert.Heading>Alumnos con Deudas</Alert.Heading>
               <ul>
-                {alumnosConDeudas.map((alumno) => (
-                  <li key={alumno._id}>
-                    {alumno.nombre} {alumno.apellido} (Categoría:{" "}
-                    {alumno.categoria}) debe cuotas: {alumno.mesesAdeudados?.join(", ") || "Ninguno"}
-                  </li>
-                ))}
+                {alumnosConDeudas
+                  .filter(
+                    (alumno) =>
+                      alumno.mesesAdeudados && alumno.mesesAdeudados.length > 0
+                  )
+                  .map((alumno) => (
+                    <li key={alumno._id}>
+                      {alumno.nombre} {alumno.apellido} (Categoría:{" "}
+                      {alumno.categoria}) debe cuotas:{" "}
+                      {alumno.mesesAdeudados.join(", ")}
+                    </li>
+                  ))}
               </ul>
             </Alert>
           </Col>
         </Row>
+      
       )}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
@@ -351,7 +374,7 @@ const RegistroPagos = () => {
               <h5>
                 {selectedAlumno.nombre} {selectedAlumno.apellido}
               </h5>
-              <Table striped bordered hover>
+              <Table striped bordered hover className="styled-table">
                 <thead>
                   <tr>
                     <th>Mes</th>
@@ -364,7 +387,7 @@ const RegistroPagos = () => {
                     <tr key={pago._id}>
                       <td>{meses.find((m) => m.valor === pago.mes)?.nombre}</td>
                       <td>{pago.monto}</td>
-                      <td>{new Date(pago.fechaPago).toLocaleDateString()}</td>
+                      <td>{pago.fechaPago.split('T')[0]}</td>
                     </tr>
                   ))}
                 </tbody>

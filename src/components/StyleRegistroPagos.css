@@ -1,0 +1,55 @@
+.registro-pagos-form .form-control {
+    border-radius: 0.5rem;
+  }
+  
+  .registro-pagos-form .submit-button {
+    margin-top: 1rem;
+  }
+  
+  .form-group-custom {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group-custom label {
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .registro-pagos-form .rounded-input {
+    border-radius: 10px;
+  }
+  
+  .styled-table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .styled-table thead th {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+  }
+  
+  .styled-table tbody tr {
+    transition: all 0.3s;
+  }
+  
+  .styled-table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .styled-alert {
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .registro-pagos-form .form-group-custom {
+      margin-bottom: 1rem;
+    }
+    .registro-pagos-form .submit-button {
+      margin-top: 1.5rem;
+    }
+  }
+  

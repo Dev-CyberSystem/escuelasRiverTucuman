@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Table, Form } from "react-bootstrap";
 import axios from "axios";
-import moment from "moment-timezone";
+
 
 const HistorialAsistencia = () => {
   const [asistencias, setAsistencias] = useState([]);
   const [fechaFiltro, setFechaFiltro] = useState("");
 
   const fetchAsistencias = async () => {
-    console.log(fechaFiltro)
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
@@ -19,7 +18,6 @@ const HistorialAsistencia = () => {
           },
         }
       );
-      console.log(response.data, "Asistencias historial:");
       setAsistencias(response.data);
     } catch (error) {
       console.error("Error al obtener asistencias:", error);
@@ -67,7 +65,7 @@ const HistorialAsistencia = () => {
                     <td>{asistencia.alumnoId.nombre}</td>
                     <td>{asistencia.alumnoId.apellido}</td>
                     <td>{asistencia.alumnoId.categoria}</td>
-                    <td>{moment(asistencia.fecha).tz("America/Argentina/Buenos_Aires").format('DD-MM-YYYY')}</td>
+                    <td>{asistencia.fecha.split('T')[0]}</td>
                   </tr>
                 ))}
               </tbody>

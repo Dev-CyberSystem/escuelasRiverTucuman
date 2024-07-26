@@ -3,7 +3,7 @@ import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
 import { AlumnoContext } from "../context/AlumnoContext";
 import axios from "axios";
 import Swal from "sweetalert2";
-import moment from "moment-timezone";
+import moment from "moment";
 
 const RegistroAsistencia = () => {
   const { alumnosEscuela, getAlumnos } = useContext(AlumnoContext);
@@ -28,13 +28,14 @@ const RegistroAsistencia = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/asistencias?fecha=${fechaFiltro}`,
+        `https://backescuelariver.onrender.com/api/asistencias?fecha=${fechaFiltro}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      console.log("Asistencias obtenidas del servidor:", response.data);
       setAsistencias(response.data);
     } catch (error) {
       console.error("Error al obtener asistencias:", error);
@@ -42,25 +43,26 @@ const RegistroAsistencia = () => {
   };
 
   useEffect(() => {
-    if (fechaFiltro) {
-      const alumnosConAsistencia = asistencias.map((a) => a.alumnoId._id);
-      setAlumnosFiltrados(
-        alumnosEscuela.filter(
-          (alumno) =>
-            alumno.nombre.toLowerCase().includes(nombreFiltro.toLowerCase()) &&
-            !alumnosConAsistencia.includes(alumno._id)
-        )
-      );
-    }
-  }, [nombreFiltro, alumnosEscuela, asistencias, fechaFiltro]);
+    const alumnosConAsistencia = asistencias.map((a) => a.alumnoId._id);
+    console.log("IDs de alumnos con asistencia registrada en la fecha:", alumnosConAsistencia);
+    setAlumnosFiltrados(
+      alumnosEscuela.filter(
+        (alumno) =>
+          alumno.nombre.toLowerCase().includes(nombreFiltro.toLowerCase()) &&
+          !alumnosConAsistencia.includes(alumno._id)
+      )
+    );
+  }, [nombreFiltro, alumnosEscuela, asistencias]);
 
   const handleAsistencia = async (alumnoId) => {
     const token = localStorage.getItem("token");
     const fechaFormateada = moment(fechaFiltro).format("DD-MM-YYYY");
 
+    console.log("Fecha enviada:", fechaFormateada);
+
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/asistencias",
+        "https://backescuelariver.onrender.com/api/asistencias",
         { alumnoId, fecha: fechaFormateada },
         {
           headers: {
@@ -68,10 +70,7 @@ const RegistroAsistencia = () => {
           },
         }
       );
-      console.log(
-        "Respuesta del servidor al registrar asistencia:",
-        response.data
-      );
+      console.log("Respuesta del servidor al registrar asistencia:", response.data);
       Swal.fire(
         "Asistencia Registrada",
         "La asistencia ha sido registrada correctamente",
@@ -85,8 +84,7 @@ const RegistroAsistencia = () => {
       } else {
         Swal.fire(
           "Error",
-          error.response.data.message ||
-            "Hubo un problema al registrar la asistencia",
+          error.response.data.message || "Hubo un problema al registrar la asistencia",
           "error"
         );
       }
@@ -99,6 +97,15 @@ const RegistroAsistencia = () => {
         <Col>
           <h1>Registro de Asistencia</h1>
           <Form.Group>
+            <Form.Label>Buscar por nombre</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Buscar por nombre"
+              value={nombreFiltro}
+              onChange={(e) => setNombreFiltro(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group>
             <Form.Label>Fecha</Form.Label>
             <Form.Control
               type="date"
@@ -108,50 +115,36 @@ const RegistroAsistencia = () => {
             />
           </Form.Group>
           {fechaFiltro && (
-            <>
-              <Form.Group>
-                <Form.Label>Buscar por nombre</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Buscar por nombre"
-                  value={nombreFiltro}
-                  onChange={(e) => setNombreFiltro(e.target.value)}
-                />
-              </Form.Group>
-              <Table striped bordered hover className="mt-3">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Categoría</th>
-                    <th>Acciones</th>
+            <Table striped bordered hover className="mt-3">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Categoría</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {alumnosFiltrados.map((alumno) => (
+                  <tr key={alumno._id}>
+                    <td>{alumno.nombre}</td>
+                    <td>{alumno.apellido}</td>
+                    <td>{alumno.categoria}</td>
+                    <td>
+                      <Button
+                        variant="success"
+                        onClick={() => handleAsistencia(alumno._id)}
+                      >
+                        Registrar Asistencia
+                      </Button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {alumnosFiltrados.map((alumno) => (
-                    <tr key={alumno._id}>
-                      <td>{alumno.nombre}</td>
-                      <td>{alumno.apellido}</td>
-                      <td>{alumno.categoria}</td>
-                      <td>
-                        <Button
-                          variant="success"
-                          onClick={() => handleAsistencia(alumno._id)}
-                        >
-                          Registrar Asistencia
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-              {alumnosFiltrados.length === 0 && (
-                <p>
-                  No hay alumnos disponibles para registrar asistencia en esta
-                  fecha.
-                </p>
-              )}
-            </>
+                ))}
+              </tbody>
+            </Table>
+          )}
+          {fechaFiltro && alumnosFiltrados.length === 0 && (
+            <p>No hay alumnos disponibles para registrar asistencia en esta fecha.</p>
           )}
         </Col>
       </Row>

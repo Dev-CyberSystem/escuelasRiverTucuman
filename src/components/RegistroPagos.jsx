@@ -1,9 +1,19 @@
 import { useContext, useState, useEffect } from "react";
-import { Form, Button, Container, Row, Col, Table, Modal, Alert, Pagination } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Table,
+  Modal,
+  Alert,
+  Pagination,
+} from "react-bootstrap";
 import { AlumnoContext } from "../context/AlumnoContext";
 import axios from "axios";
 import Swal from "sweetalert2";
-import './StyleRegistroPagos.css';
+import "./StyleRegistroPagos.css";
 
 const RegistroPagos = () => {
   const { alumnosEscuela, getAlumnos } = useContext(AlumnoContext);
@@ -20,7 +30,7 @@ const RegistroPagos = () => {
   const [historialPagos, setHistorialPagos] = useState([]);
   const [alumnosConDeudas, setAlumnosConDeudas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Número de elementos por página
+  const itemsPerPage = 10;
 
   const meses = [
     { nombre: "Enero", valor: 1 },
@@ -118,7 +128,6 @@ const RegistroPagos = () => {
       const currentMonth = new Date().getMonth() + 1;
       const fechaIngreso = new Date(alumno.fechaIngreso);
       const mesIngreso = fechaIngreso.getMonth() + 1;
-
       const pagosRealizados = alumno.pagos.filter((pago) => {
         const pagoDate = new Date(pago.fechaPago);
         return (
@@ -374,7 +383,7 @@ const RegistroPagos = () => {
                     <tr key={pago._id}>
                       <td>{meses.find((m) => m.valor === pago.mes)?.nombre}</td>
                       <td>{pago.monto}</td>
-                      <td>{pago.fechaPago.split('T')[0]}</td>
+                      <td>{pago.fechaPago.split("T")[0]}</td>
                     </tr>
                   ))}
                 </tbody>

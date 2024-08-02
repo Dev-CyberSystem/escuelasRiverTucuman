@@ -6,6 +6,7 @@ import EscuelasRiver from "../assets/img/logoEscuela.png";
 import "./styleContacto.css";
 import emailjs from "@emailjs/browser";
 import Swal from "sweetalert2";
+import Footer from "../components/Footer";
 
 const Contacto = () => {
   const form = useRef();
@@ -69,6 +70,7 @@ const Contacto = () => {
   };
 
   return (
+    <>
     <Container fluid className="contact-form-container mt-5">
       <Row className="justify-content-center align-items-center h-100">
         <Col md={6} className="form-box">
@@ -171,6 +173,8 @@ const Contacto = () => {
         </Col>
       </Row>
     </Container>
+      <Footer />
+      </>
   );
 };
 

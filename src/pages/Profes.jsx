@@ -8,6 +8,8 @@ import Profe5 from "../assets/img/francisco.png";
 import Profe6 from "../assets/img/ignacio.png";
 import Profe7 from "../assets/img/matias.png";
 import Profe8 from "../assets/img/sergio.png";
+import Footer from "../components/Footer";
+
 
 const Profes = () => {
   // cada profesor deberia tener un nombre, una especialidad y una foto
@@ -85,7 +87,9 @@ const Profes = () => {
           </Col>
         ))}
       </Row>
+      <Footer />
     </Container>
+
   );
 };
 

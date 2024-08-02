@@ -8,6 +8,7 @@ import CantidadAlumnos from "../components/CantidadAlumnos";
 import MisionVision from "../components/MisionVision";
 import Valores from "../components/Valores";
 import Ubicacion from "../components/Ubicacion";
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
@@ -32,7 +33,7 @@ const Home = () => {
       <CantidadAlumnos />
       <Valores />
       <Ubicacion />
-     
+     <Footer />
     </>
   );
 };

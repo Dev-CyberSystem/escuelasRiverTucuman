@@ -3,7 +3,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navegador from "./components/Navegador";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 import Rutas from "./rutas/Rutas";
 import { AlumnoProvider } from "./context/AlumnoContext";
 import  UsersContext  from "./context/UsersContext";
@@ -18,7 +18,7 @@ function App() {
           <main>
             <Rutas />
           </main>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </AlumnoProvider>
     </UsersContext>

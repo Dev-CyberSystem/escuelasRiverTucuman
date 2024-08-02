@@ -5,7 +5,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import moment from "moment";
 import "moment-timezone";
-import config from "../../config/Config";
 
 const RegistroAsistencia = () => {
   const { alumnosEscuela, getAlumnos } = useContext(AlumnoContext);
@@ -30,7 +29,7 @@ const RegistroAsistencia = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        `${config.URL_PRODUCTIVA}/api/asistencias?fecha=${fechaFiltro}`,
+        `https://backescuelariver.onrender.com/api/asistencias?fecha=${fechaFiltro}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -61,7 +60,7 @@ const RegistroAsistencia = () => {
       .format("YYYY-MM-DD");
     try {
        await axios.post(
-        `${config.URL_PRODUCTIVA}/api/asistencias/registro`,
+        `https://backescuelariver.onrender.com/api/asistencias/registro`,
         { alumnoId, fecha: fechaFormateada },
         {
           headers: {

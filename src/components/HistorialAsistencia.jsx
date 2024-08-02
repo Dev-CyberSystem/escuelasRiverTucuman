@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Table, Form } from "react-bootstrap";
 import axios from "axios";
 import moment from "moment";
-import config from "../../config/Config";
 
 const HistorialAsistencia = () => {
   const [asistencias, setAsistencias] = useState([]);
@@ -13,7 +12,7 @@ const HistorialAsistencia = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        `${config.URL_PRODUCTIVA}/api/asistencias?fecha=${fechaFiltro}`,
+        `https://backescuelariver.onrender.com/api/asistencias?fecha=${fechaFiltro}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

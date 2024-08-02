@@ -4,6 +4,8 @@ import { AlumnoContext } from "../context/AlumnoContext";
 import axios from "axios";
 import Swal from "sweetalert2";
 import moment from "moment";
+import "moment-timezone";
+import config from "../../config/Config";
 
 const RegistroAsistencia = () => {
   const { alumnosEscuela, getAlumnos } = useContext(AlumnoContext);
@@ -28,14 +30,13 @@ const RegistroAsistencia = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        `https://backescuelariver.onrender.com/api/asistencias?fecha=${fechaFiltro}`,
+        `${config.URL_LOCAL}/api/asistencias?fecha=${fechaFiltro}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log("Asistencias obtenidas del servidor:", response.data);
       setAsistencias(response.data);
     } catch (error) {
       console.error("Error al obtener asistencias:", error);
@@ -44,7 +45,6 @@ const RegistroAsistencia = () => {
 
   useEffect(() => {
     const alumnosConAsistencia = asistencias.map((a) => a.alumnoId._id);
-    console.log("IDs de alumnos con asistencia registrada en la fecha:", alumnosConAsistencia);
     setAlumnosFiltrados(
       alumnosEscuela.filter(
         (alumno) =>
@@ -56,13 +56,12 @@ const RegistroAsistencia = () => {
 
   const handleAsistencia = async (alumnoId) => {
     const token = localStorage.getItem("token");
-    const fechaFormateada = moment(fechaFiltro).format("DD-MM-YYYY");
-
-    console.log("Fecha enviada:", fechaFormateada);
-
+    const fechaFormateada = moment
+      .tz(fechaFiltro, "America/Argentina/Buenos_Aires")
+      .format("YYYY-MM-DD");
     try {
-      const response = await axios.post(
-        "https://backescuelariver.onrender.com/api/asistencias",
+       await axios.post(
+        `${config.URL_LOCAL}/api/asistencias/registro`,
         { alumnoId, fecha: fechaFormateada },
         {
           headers: {
@@ -70,7 +69,6 @@ const RegistroAsistencia = () => {
           },
         }
       );
-      console.log("Respuesta del servidor al registrar asistencia:", response.data);
       Swal.fire(
         "Asistencia Registrada",
         "La asistencia ha sido registrada correctamente",
@@ -84,7 +82,8 @@ const RegistroAsistencia = () => {
       } else {
         Swal.fire(
           "Error",
-          error.response.data.message || "Hubo un problema al registrar la asistencia",
+          error.response.data.message ||
+            "Hubo un problema al registrar la asistencia",
           "error"
         );
       }
@@ -144,7 +143,10 @@ const RegistroAsistencia = () => {
             </Table>
           )}
           {fechaFiltro && alumnosFiltrados.length === 0 && (
-            <p>No hay alumnos disponibles para registrar asistencia en esta fecha.</p>
+            <p>
+              No hay alumnos disponibles para registrar asistencia en esta
+              fecha.
+            </p>
           )}
         </Col>
       </Row>

@@ -13,7 +13,7 @@ const HistorialAsistencia = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        `${config.URL_LOCAL}/api/asistencias?fecha=${fechaFiltro}`,
+        `${config.URL_PRODUCTIVA}/api/asistencias?fecha=${fechaFiltro}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

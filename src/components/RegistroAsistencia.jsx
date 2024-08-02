@@ -56,7 +56,7 @@ const RegistroAsistencia = () => {
   const handleAsistencia = async (alumnoId) => {
     const token = localStorage.getItem("token");
     const fechaFormateada = moment
-      .tz(fechaFiltro, "America/Argentina/Buenos_Aires")
+      .tz(fechaFiltro, "America/Argentina/Buenos_Aires").utc()
       .format("YYYY-MM-DD");
     try {
        await axios.post(

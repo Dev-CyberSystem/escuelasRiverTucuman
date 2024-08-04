@@ -61,8 +61,7 @@ const PartidosProgramados = () => {
   return (
     <Container className="mt-5 text-center">
       <h1>Partidos Programados</h1>
-      <p>En esta página se mostrarán los partidos programados</p>
-      
+     
       <Form>
         <Row className="mb-3">
           <Col md={4}>

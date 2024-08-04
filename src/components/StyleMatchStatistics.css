@@ -1,0 +1,30 @@
+.card {
+    margin-bottom: 20px;
+  }
+  
+  .card-title {
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .card-text {
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .list-group-item {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .pagination {
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .card-text {
+      font-size: 20px;
+    }
+  }
+  

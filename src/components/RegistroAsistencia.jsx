@@ -53,46 +53,11 @@ const RegistroAsistencia = () => {
     );
   }, [nombreFiltro, alumnosEscuela, asistencias]);
 
-  // const handleAsistencia = async (alumnoId) => {
-  //   const token = localStorage.getItem("token");
-  //   const fechaFormateada = moment
-  //     .tz(fechaFiltro, "America/Argentina/Buenos_Aires").utc()
-  //     .format("YYYY-MM-DD");
-  //   try {
-  //      await axios.post(
-  //       `https://backescuelariver.onrender.com/api/asistencias/registro`,
-  //       { alumnoId, fecha: fechaFormateada },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     Swal.fire(
-  //       "Asistencia Registrada",
-  //       "La asistencia ha sido registrada correctamente",
-  //       "success"
-  //     );
-  //     fetchAsistencias();
-  //   } catch (error) {
-  //     console.error("Error al registrar asistencia:", error);
-  //     if (error.response && error.response.status === 401) {
-  //       Swal.fire("Error", "Acceso denegado, token no válido", "error");
-  //     } else {
-  //       Swal.fire(
-  //         "Error",
-  //         error.response.data.message ||
-  //           "Hubo un problema al registrar la asistencia",
-  //         "error"
-  //       );
-  //     }
-  //   }
-  // };
   const handleAsistencia = async (alumnoId) => {
     const token = localStorage.getItem("token");
-    const fechaFormateada = moment(fechaFiltro).tz("America/Argentina/Buenos_Aires").format();
-    console.log("Fecha Formateada:", fechaFormateada); // Agrega un log para verificar
-  
+    const fechaFormateada = moment(fechaFiltro)
+      .tz("America/Argentina/Buenos_Aires")
+      .format();
     try {
       await axios.post(
         `https://backescuelariver.onrender.com/api/asistencias/registro`,
@@ -116,7 +81,8 @@ const RegistroAsistencia = () => {
       } else {
         Swal.fire(
           "Error",
-          error.response.data.message || "Hubo un problema al registrar la asistencia",
+          error.response.data.message ||
+            "Hubo un problema al registrar la asistencia",
           "error"
         );
       }

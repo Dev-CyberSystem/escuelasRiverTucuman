@@ -1,0 +1,57 @@
+.match-scheduler-container {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px 0;
+    background-color: #f9f9f9;
+  }
+  
+  .match-scheduler-title {
+    text-align: center;
+    color: #333;
+  }
+  
+  .match-scheduler-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .match-scheduler-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .match-scheduler-label {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .match-scheduler-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  
+  .match-scheduler-input:focus {
+    border-color: #007bff;
+  }
+  
+  .match-scheduler-button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .match-scheduler-button:hover {
+    background-color: #0056b3;
+  }
+  

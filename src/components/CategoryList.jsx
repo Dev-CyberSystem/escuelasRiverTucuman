@@ -27,9 +27,19 @@ const CategoryList = ({ category, selectedStudents, setSelectedStudents }) => {
     }
   };
 
+  const handleSelectAll = () => {
+    if (students.length > 0) {
+      const allStudentIds = students.map(student => student._id);
+      setSelectedStudents(allStudentIds);
+    }
+  };
+
   return (
     <div className="category-list-container">
       <h2 className="category-list-title">Categoría {category}</h2>
+      <button className="select-all-button" onClick={handleSelectAll}>
+        Seleccionar Todos
+      </button>
       <ul className="category-list">
         {Array.isArray(students) && students.length > 0 ? (
           students.map(student => (

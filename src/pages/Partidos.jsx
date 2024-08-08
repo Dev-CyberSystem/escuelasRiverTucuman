@@ -60,6 +60,8 @@ const HomePage = () => {
             <MatchScheduler
               category={category}
               selectedStudents={selectedStudents}
+              setSelectedStudents={setSelectedStudents}
+
             />
           </div>
         ))}

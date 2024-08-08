@@ -10,7 +10,7 @@ const CategoryList = ({ category, selectedStudents, setSelectedStudents }) => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/alumnos?categoria=${category}`);
+        const response = await axios.get(`https://backescuelariver.onrender.com/api/alumnos?categoria=${category}`);
         setStudents(response.data || []);
       } catch (error) {
         console.error('Error fetching students:', error);

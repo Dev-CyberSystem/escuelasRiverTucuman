@@ -50,7 +50,7 @@ const MatchScheduler = ({ category, selectedStudents, setSelectedStudents }) => 
 
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post("http://localhost:8080/api/matches", match, {
+      const response = await axios.post("https://backescuelariver.onrender.com/api/matches", match, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -13,14 +13,14 @@ const PartidosProgramados = () => {
   const matchesPerPage = 9;
 
   const fetchCategories = async () => {
-    const response = await axios.get("http://localhost:8080/api/categorias");
+    const response = await axios.get("https://backescuelariver.onrender.com/api/categorias");
     setCategories(response.data);
   };
 
   const fetchMatches = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.get(`http://localhost:8080/api/matches`, {
+      const response = await axios.get(`https://backescuelariver.onrender.com/api/matches`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

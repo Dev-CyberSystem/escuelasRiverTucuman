@@ -12,7 +12,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await axios.get("http://localhost:8080/api/categorias");
+      const response = await axios.get("https://backescuelariver.onrender.com/api/categorias");
       setCategories(response.data);
     };
     fetchCategories();

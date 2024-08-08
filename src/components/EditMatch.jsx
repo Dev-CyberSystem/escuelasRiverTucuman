@@ -102,7 +102,7 @@ const EditMatch = ({ match, onUpdate, onClose }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:8080/api/matches/match/${match._id}`,
+        `https://backescuelariver.onrender.com/api/matches/match/${match._id}`,
         updatedMatch,
         {
           headers: {

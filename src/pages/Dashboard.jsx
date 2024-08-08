@@ -7,6 +7,9 @@ import ListadoUsuarios from "./ListaUsuarios";
 import EstadisticasAlumnos from "../components/EstadisticasAlumnos";
 import RegistroPagos from "../components/RegistroPagos";
 import Asistencia from "../components/Asistencia";
+import Partidos from "./Partidos";
+import PartidosProgramados from "../components/PartidosProgramados";
+import MatchStatistics from "../components/MatchStatistics";
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("alumnos");
 
@@ -22,8 +25,14 @@ const Dashboard = () => {
         return <EstadisticasAlumnos />;
       case "Pagos":
         return <RegistroPagos />;
-        case "asistencia":
+      case "asistencia":
         return <Asistencia />;
+      case "partidos":
+        return <Partidos />;
+      case "fixture":
+        return <PartidosProgramados />;
+      case "estadisticasPartidos":
+        return <MatchStatistics />;
       default:
         return <Alumnos />;
     }
@@ -69,6 +78,24 @@ const Dashboard = () => {
               onClick={() => setActiveTab("asistencia")}
             >
               Asistencia
+            </Nav.Link>
+            <Nav.Link
+              className={activeTab === "partidos" ? "active" : ""}
+              onClick={() => setActiveTab("partidos")}
+            >
+              Programación Partidos
+            </Nav.Link>
+            <Nav.Link
+              className={activeTab === "fixture" ? "active" : ""}
+              onClick={() => setActiveTab("fixture")}
+            >
+              Fixture
+            </Nav.Link>
+            <Nav.Link
+              className={activeTab === "estadisticasPartidos" ? "active" : ""}
+              onClick={() => setActiveTab("estadisticasPartidos")}
+            >
+              Estadisticas Partidos
             </Nav.Link>
           </Nav>
         </Col>

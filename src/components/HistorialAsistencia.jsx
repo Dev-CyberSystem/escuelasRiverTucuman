@@ -8,7 +8,6 @@ const HistorialAsistencia = () => {
   const [fechaFiltro, setFechaFiltro] = useState("");
 
   const fetchAsistencias = async () => {
-    console.log(fechaFiltro)
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
@@ -19,7 +18,6 @@ const HistorialAsistencia = () => {
           },
         }
       );
-      console.log(response.data, "Asistencias historial:");
       setAsistencias(response.data);
     } catch (error) {
       console.error("Error al obtener asistencias:", error);

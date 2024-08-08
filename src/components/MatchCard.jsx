@@ -38,6 +38,7 @@ const MatchCard = ({ match, onUpdate }) => {
             <strong>Dirección:</strong> {match.address} <br />
             <strong>Resultado:</strong> {match.resultStatus} <br />
             <strong>Goles:</strong> {match.resultScore} <br />
+            <strong>Condición:</strong> {match.location}
           </Card.Text>
           <Button variant="success m-1" onClick={toggleDetails}>
             {showDetails ? "Ocultar Detalles" : "Mostrar Detalles"}
@@ -134,6 +135,7 @@ MatchCard.propTypes = {
     opponent: PropTypes.string.isRequired,
     field: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
     result: PropTypes.string,
     category: PropTypes.number.isRequired,
     resultStatus: PropTypes.string,

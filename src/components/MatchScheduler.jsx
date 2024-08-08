@@ -1,14 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import "./StyleMatchScheduler.css"; // Importa el archivo CSS
-
+import "./StyleMatchScheduler.css"; 
+import Swal from "sweetalert2";
 const MatchScheduler = ({ category, selectedStudents }) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [opponent, setOpponent] = useState("");
   const [field, setField] = useState("");
   const [address, setAddress] = useState("");
+  const [location, setLocation] = useState("Local"); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,6 +21,7 @@ const MatchScheduler = ({ category, selectedStudents }) => {
       convocatedPlayers: selectedStudents,
       field,
       address,
+      location,
     };
 
     try {
@@ -29,12 +31,19 @@ const MatchScheduler = ({ category, selectedStudents }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      Swal.fire({
+        icon: "success",
+        title: "Partido Programado",
+        text: "El partido ha sido programado exitosamente",
+        timer: 2000,
+      });
 
       setDate("");
       setTime("");
       setOpponent("");
       setField("");
       setAddress("");
+      setLocation("Local");
     } catch (error) {
       console.error("Error scheduling match:", error);
     }
@@ -42,7 +51,9 @@ const MatchScheduler = ({ category, selectedStudents }) => {
 
   return (
     <div className="match-scheduler-container">
-      <h2 className="match-scheduler-title">Programar Partido para Categoría {category}</h2>
+      <h2 className="match-scheduler-title">
+        Programar Partido para Categoría {category}
+      </h2>
       <form className="match-scheduler-form" onSubmit={handleSubmit}>
         <div className="match-scheduler-form-group">
           <label className="match-scheduler-label">Fecha:</label>
@@ -94,7 +105,20 @@ const MatchScheduler = ({ category, selectedStudents }) => {
             required
           />
         </div>
-        <button className="match-scheduler-button" type="submit">Programar Partido</button>
+        <div className="match-scheduler-form-group">
+          <label className="match-scheduler-label">Ubicación:</label>
+          <select
+            className="match-scheduler-select"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          >
+            <option value="Local">Local</option>
+            <option value="Visitante">Visitante</option>
+          </select>
+        </div>
+        <button className="match-scheduler-button" type="submit">
+          Programar Partido
+        </button>
       </form>
     </div>
   );

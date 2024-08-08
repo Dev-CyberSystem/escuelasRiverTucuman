@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Pagination } from "react-bootstrap";
 import MatchCard from "../components/MatchCard";
 import axios from "axios";
 
@@ -9,6 +9,8 @@ const PartidosProgramados = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const matchesPerPage = 9;
 
   const fetchCategories = async () => {
     const response = await axios.get("http://localhost:8080/api/categorias");
@@ -36,14 +38,17 @@ const PartidosProgramados = () => {
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
+    setCurrentPage(1);
   };
 
   const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
+    setCurrentPage(1);
   };
 
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
+    setCurrentPage(1);
   };
 
   const filteredMatches = matches.filter((match) => {
@@ -57,6 +62,17 @@ const PartidosProgramados = () => {
       (selectedYear === "" || matchYear === parseInt(selectedYear))
     );
   });
+
+  // Calcula el índice de los partidos a mostrar en la página actual
+  const indexOfLastMatch = currentPage * matchesPerPage;
+  const indexOfFirstMatch = indexOfLastMatch - matchesPerPage;
+  const currentMatches = filteredMatches.slice(indexOfFirstMatch, indexOfLastMatch);
+
+  const totalPages = Math.ceil(filteredMatches.length / matchesPerPage);
+
+  const handlePaginationClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <Container className="mt-5 text-center">
@@ -114,12 +130,24 @@ const PartidosProgramados = () => {
       </Form>
       
       <Row>
-        {filteredMatches.map((match) => (
+        {currentMatches.map((match) => (
           <Col md={4} key={match._id}>
             <MatchCard match={match} onUpdate={fetchMatches} />
           </Col>
         ))}
       </Row>
+
+      <Pagination className="justify-content-center mt-4">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <Pagination.Item
+            key={index + 1}
+            active={index + 1 === currentPage}
+            onClick={() => handlePaginationClick(index + 1)}
+          >
+            {index + 1}
+          </Pagination.Item>
+        ))}
+      </Pagination>
     </Container>
   );
 };

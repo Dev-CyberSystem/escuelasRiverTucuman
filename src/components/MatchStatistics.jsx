@@ -63,7 +63,7 @@ const MatchStatistics = () => {
   const statistics = {
     played: filteredMatches.length,
     goalsFor: filteredMatches.reduce((acc, match) => acc + match.goals.length, 0),
-    goalsAgainst: 0, // Assuming you have goals against data
+    goalsAgainst: 0, 
     topScorers: {},
     yellowCards: 0,
     redCards: 0,

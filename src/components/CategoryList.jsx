@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
 import axios from "axios";
 import PropTypes from "prop-types";
 import "./StyleCategoryList.css"; // Importa el archivo CSS
@@ -37,9 +38,9 @@ const CategoryList = ({ category, selectedStudents, setSelectedStudents }) => {
   return (
     <div className="category-list-container">
       <h2 className="category-list-title">Categoría {category}</h2>
-      <button className="select-all-button" onClick={handleSelectAll}>
+      <Button variant="outline-primary"  className="select-all-button" onClick={handleSelectAll}>
         Seleccionar Todos
-      </button>
+      </Button>
       <ul className="category-list">
         {Array.isArray(students) && students.length > 0 ? (
           students.map(student => (

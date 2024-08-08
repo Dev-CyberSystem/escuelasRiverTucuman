@@ -101,7 +101,7 @@ const EditMatch = ({ match, onUpdate, onClose }) => {
     };
     try {
       const token = localStorage.getItem("token");
-      await axios.put(
+      const response = await axios.put(
         `http://localhost:8080/api/matches/match/${match._id}`,
         updatedMatch,
         {
@@ -110,14 +110,18 @@ const EditMatch = ({ match, onUpdate, onClose }) => {
           },
         }
       );
-      Swal.fire(
-        "Partido actualizado",
-        "El partido ha sido actualizado correctamente",
-        "success",
-        { timer: 2000 }
-      );
-      onUpdate();
-      onClose();
+      if (response.status === 200) {
+        Swal.fire(
+          "Partido actualizado",
+          "El partido ha sido actualizado correctamente",
+          "success",
+          { timer: 2000 }
+        );
+        onUpdate();
+        onClose();
+      } else {
+        throw new Error("Error inesperado al actualizar el partido");
+      }
     } catch (error) {
       console.error("Error updating match:", error);
     }
@@ -140,11 +144,13 @@ const EditMatch = ({ match, onUpdate, onClose }) => {
         </Form.Control>
       </Form.Group>
       <Form.Group>
-        <Form.Label>Puntaje (ej. 2-1)</Form.Label>
+        <Form.Label>Goles (ej. 2-1)</Form.Label>
         <Form.Control
           type="text"
           value={resultScore}
           onChange={(e) => setResultScore(e.target.value)}
+          pattern="[0-9]+-[0-9]+"
+          title="Formato permitido: '2-1'"
         />
       </Form.Group>
       <Form.Group>
@@ -152,7 +158,8 @@ const EditMatch = ({ match, onUpdate, onClose }) => {
         <Form.Control
           type="number"
           value={yellowCards}
-          onChange={(e) => setYellowCards(parseInt(e.target.value))}
+          min="0"
+          onChange={(e) => setYellowCards(Math.max(0, parseInt(e.target.value)))}
         />
       </Form.Group>
       <Form.Group>
@@ -160,14 +167,16 @@ const EditMatch = ({ match, onUpdate, onClose }) => {
         <Form.Control
           type="number"
           value={redCards}
-          onChange={(e) => setRedCards(parseInt(e.target.value))}
+          min="0"
+          onChange={(e) => setRedCards(Math.max(0, parseInt(e.target.value)))}
         />
       </Form.Group>
       <Form.Group>
         <Form.Label>Observaciones</Form.Label>
         <Form.Control
-          type="text"
+          as="textarea"
           value={observations}
+          maxLength="700"
           onChange={(e) => setObservations(e.target.value)}
         />
       </Form.Group>
@@ -199,9 +208,10 @@ const EditMatch = ({ match, onUpdate, onClose }) => {
               <Form.Label>Minuto</Form.Label>
               <Form.Control
                 type="number"
+                min="0"
                 value={goal.minute}
                 onChange={(e) =>
-                  handleGoalChange(index, "minute", e.target.value)
+                  handleGoalChange(index, "minute", Math.max(0, parseInt(e.target.value)))
                 }
               />
             </Form.Group>
@@ -239,9 +249,10 @@ const EditMatch = ({ match, onUpdate, onClose }) => {
               <Form.Label>Minuto</Form.Label>
               <Form.Control
                 type="number"
+                min="0"
                 value={card.minute}
                 onChange={(e) =>
-                  handleYellowCardChange(index, "minute", e.target.value)
+                  handleYellowCardChange(index, "minute", Math.max(0, parseInt(e.target.value)))
                 }
               />
             </Form.Group>
@@ -279,9 +290,10 @@ const EditMatch = ({ match, onUpdate, onClose }) => {
               <Form.Label>Minuto</Form.Label>
               <Form.Control
                 type="number"
+                min="0"
                 value={card.minute}
                 onChange={(e) =>
-                  handleRedCardChange(index, "minute", e.target.value)
+                  handleRedCardChange(index, "minute", Math.max(0, parseInt(e.target.value)))
                 }
               />
             </Form.Group>
